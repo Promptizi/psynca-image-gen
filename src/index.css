@@ -8,50 +8,51 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark theme inspired by the reference */
-    --background: 220 26% 8%;
+    /* Dark theme inspired by Artifex - more vibrant and cyberpunk */
+    --background: 240 15% 4%;
     --foreground: 210 40% 98%;
 
-    --card: 220 26% 10%;
+    --card: 240 20% 6%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 26% 10%;
+    --popover: 240 20% 6%;
     --popover-foreground: 210 40% 98%;
 
-    /* Primary purple gradient */
-    --primary: 280 65% 65%;
-    --primary-foreground: 210 40% 98%;
+    /* Vibrant purple-pink primary */
+    --primary: 295 100% 70%;
+    --primary-foreground: 240 15% 4%;
 
-    /* Secondary with subtle purple tint */
-    --secondary: 260 15% 20%;
+    /* Dark secondary */
+    --secondary: 240 15% 12%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 260 10% 15%;
+    --muted: 240 10% 10%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    /* Vibrant accent for CTAs */
-    --accent: 320 85% 68%;
-    --accent-foreground: 210 40% 98%;
+    /* Cyan accent like Artifex */
+    --accent: 190 100% 70%;
+    --accent-foreground: 240 15% 4%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 260 15% 18%;
-    --input: 260 15% 18%;
-    --ring: 280 65% 65%;
+    --border: 240 15% 15%;
+    --input: 240 15% 15%;
+    --ring: 295 100% 70%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
-    /* Custom gradients for Psynca Studio */
-    --gradient-primary: linear-gradient(135deg, hsl(280 65% 65%), hsl(320 85% 68%));
-    --gradient-hero: linear-gradient(135deg, hsl(280 65% 65%), hsl(260 80% 70%), hsl(200 85% 75%));
-    --gradient-card: linear-gradient(135deg, hsl(260 15% 20%), hsl(280 20% 15%));
-    --gradient-subtle: linear-gradient(180deg, hsl(220 26% 10%), hsl(260 15% 12%));
+    /* Artifex-inspired gradients */
+    --gradient-primary: linear-gradient(135deg, #a855f7, #ec4899, #06b6d4);
+    --gradient-hero: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+    --gradient-card: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.05));
+    --gradient-subtle: linear-gradient(180deg, hsl(240 15% 4%), hsl(240 20% 6%));
 
-    /* Shadows with glow effects */
-    --shadow-glow: 0 0 40px hsl(280 65% 65% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(280 65% 65% / 0.2);
-    --shadow-button: 0 4px 20px hsl(320 85% 68% / 0.4);
+    /* Neon glow effects like Artifex */
+    --shadow-glow: 0 0 50px rgba(168, 85, 247, 0.4);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-button: 0 4px 20px rgba(168, 85, 247, 0.3);
+    --shadow-cyan: 0 0 30px rgba(6, 182, 212, 0.5);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -121,12 +122,14 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground min-h-screen;
-    background: linear-gradient(135deg, hsl(var(--background)), hsl(260 15% 12%));
+    background: #1a1625;
+    background-attachment: fixed;
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -140,6 +143,16 @@ All colors MUST be HSL.
 
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--accent));
+  }
+
+  /* Hide horizontal scrollbar */
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .overflow-x-auto {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
@@ -155,6 +168,26 @@ All colors MUST be HSL.
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .artifex-button {
+    background: linear-gradient(135deg, #8B5CF6, #EC4899);
+    box-shadow: 0 4px 15px 0 rgba(139, 92, 246, 0.4);
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .artifex-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.6);
   }
 
   .glow {

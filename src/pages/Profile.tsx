@@ -9,8 +9,7 @@ export default function Profile() {
   const userCredits = 15;
   const userStats = {
     totalGenerated: 127,
-    joinDate: "Janeiro 2024",
-    favoriteCategory: "Terapia"
+    joinDate: "Janeiro 2024"
   };
 
   const menuItems = [
@@ -43,8 +42,7 @@ export default function Profile() {
             </div>
             <div className="flex-1">
               <h2 className="text-xl font-bold">Dr. Ana Silva</h2>
-              <p className="text-muted-foreground">Psicóloga Clínica</p>
-              <p className="text-sm text-muted-foreground">CRP 12345</p>
+              <p className="text-muted-foreground">Profissional de Saúde Mental</p>
             </div>
           </div>
           
@@ -57,7 +55,7 @@ export default function Profile() {
       {/* Stats */}
       <section className="px-4 mb-8">
         <h3 className="text-lg font-bold mb-4">Estatísticas</h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <Card className="p-4 bg-card/50 border-border/50 text-center">
             <BarChart3 className="h-6 w-6 text-primary mx-auto mb-2" />
             <div className="text-2xl font-bold">{userStats.totalGenerated}</div>
@@ -69,21 +67,15 @@ export default function Profile() {
             <div className="text-sm font-bold">{userStats.joinDate}</div>
             <div className="text-xs text-muted-foreground">Membro desde</div>
           </Card>
-          
-          <Card className="p-4 bg-card/50 border-border/50 text-center">
-            <div className="text-2xl mb-2">🎯</div>
-            <div className="text-sm font-bold">{userStats.favoriteCategory}</div>
-            <div className="text-xs text-muted-foreground">Categoria Favorita</div>
-          </Card>
         </div>
       </section>
 
-      {/* Plan Info */}
+      {/* Package Info */}
       <section className="px-4 mb-8">
         <Card className="p-6 bg-card/50 border-border/50">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold">Plano Atual</h3>
+              <h3 className="font-bold">Pacote Atual</h3>
               <p className="text-sm text-muted-foreground">Pagamento por crédito</p>
             </div>
             <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary/10">
@@ -130,9 +122,9 @@ export default function Profile() {
       {/* App Info */}
       <section className="px-4 mb-8">
         <Card className="p-4 bg-card/50 border-border/50 text-center">
-          <h3 className="font-bold gradient-text mb-2">Psynca Studio</h3>
+          <h3 className="font-bold gradient-text mb-2">Psynka Studio</h3>
           <p className="text-xs text-muted-foreground">Versão 1.0.0</p>
-          <p className="text-xs text-muted-foreground">© 2024 Psynca Studio</p>
+          <p className="text-xs text-muted-foreground">© 2024 Psynka Studio</p>
         </Card>
       </section>
 

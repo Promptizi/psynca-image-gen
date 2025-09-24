@@ -12,8 +12,8 @@ export default function Credits() {
     {
       id: "basic",
       name: "Pacote Básico",
-      credits: 50,
-      price: 50,
+      credits: 10,
+      price: 9.99,
       popular: false,
       description: "Ideal para começar",
       icon: Zap
@@ -21,8 +21,8 @@ export default function Credits() {
     {
       id: "premium",
       name: "Pacote Premium",
-      credits: 120,
-      price: 100,
+      credits: 60,
+      price: 49.99,
       popular: true,
       description: "20% de bônus",
       icon: Star
@@ -30,8 +30,8 @@ export default function Credits() {
     {
       id: "professional",
       name: "Pacote Profissional",
-      credits: 250,
-      price: 200,
+      credits: 125,
+      price: 99.99,
       popular: false,
       description: "25% de bônus",
       icon: Gift
@@ -106,7 +106,7 @@ export default function Credits() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold">R$ {option.price}</div>
+                    <div className="text-2xl font-bold">R$ {option.price.toFixed(2)}</div>
                     <div className="text-sm text-muted-foreground">{option.credits} créditos</div>
                   </div>
                 </div>
@@ -137,7 +137,7 @@ export default function Credits() {
       {/* Benefits */}
       <section className="px-4 mb-8">
         <Card className="p-6 bg-card/50 border-border/50">
-          <h3 className="font-bold mb-4">Por que escolher o Psynca Studio?</h3>
+          <h3 className="font-bold mb-4">Por que escolher o Psynka Studio?</h3>
           <div className="space-y-3">
             {[
               "IA especializada em conteúdo psicológico",
