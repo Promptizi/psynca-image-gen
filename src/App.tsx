@@ -8,6 +8,8 @@ import Generate from "./pages/Generate";
 import Gallery from "./pages/Gallery";
 import Credits from "./pages/Credits";
 import Profile from "./pages/Profile";
+import ThumbnailGenerator from "./pages/ThumbnailGenerator";
+import CustomThumbnailGenerator from "./pages/CustomThumbnailGenerator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/credits" element={<Credits />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/thumbnail-generator" element={<ThumbnailGenerator />} />
+          <Route path="/custom-thumbnails" element={<CustomThumbnailGenerator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -4,9 +4,16 @@ import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
 import { Sparkles, Zap, Brain, Heart, ArrowRight, Play, Image as ImageIcon, Palette, Wand2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { clearThumbnailCache } from "@/data/templateCategories";
 
 export default function Home() {
   const userCredits = 15;
+
+  // Limpar cache de thumbnails para garantir que as imagens de referência reais sejam exibidas
+  useEffect(() => {
+    clearThumbnailCache();
+  }, []);
 
   // Templates organizados por categoria para scroll horizontal
   const templateCategories = [
@@ -192,12 +199,28 @@ export default function Home() {
               Transforme suas Imagens
             </h2>
             <p className="text-white/80 mb-4">Crie imagens profissionais com IA</p>
-            <Link to="/generate">
-              <Button className="bg-white text-primary hover:bg-white/90">
-                <Wand2 className="mr-2 h-4 w-4" />
-                Começar Agora
-              </Button>
-            </Link>
+            <div className="flex flex-col gap-3">
+              <Link to="/generate">
+                <Button className="bg-white text-primary hover:bg-white/90 w-full">
+                  <Wand2 className="mr-2 h-4 w-4" />
+                  Começar Agora
+                </Button>
+              </Link>
+              <div className="flex gap-2">
+                <Link to="/thumbnail-generator" className="flex-1">
+                  <Button variant="outline" className="border-white text-white hover:bg-white/10 w-full text-xs">
+                    <ImageIcon className="mr-1 h-3 w-3" />
+                    Gerar Thumbnails
+                  </Button>
+                </Link>
+                <Link to="/custom-thumbnails" className="flex-1">
+                  <Button variant="outline" className="border-white text-white hover:bg-white/10 w-full text-xs">
+                    <Sparkles className="mr-1 h-3 w-3" />
+                    Thumbnails Personalizadas
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </Card>
       </div>

@@ -98,16 +98,8 @@ class ImageGenerationService {
       // Convert user photo to base64
       const userPhotoBase64 = await this.fileToBase64(request.userPhoto);
       
-      // Build enhanced prompt for professional transformation
-      const enhancedPrompt = `Transform this person into: ${request.template.prompt}.
-      
-CRITICAL INSTRUCTIONS:
-      - Preserve the person's exact facial features, skin tone, and identity
-      - Only change: clothing, background, environment, lighting
-      - Match the professional style described
-      - Make it photorealistic and high-quality
-      - Professional quality suitable for LinkedIn or website
-      - Maintain natural proportions and realistic appearance`;
+      // Use the optimized NanoBanana prompt directly from template
+      const enhancedPrompt = request.template.prompt;
       
       const requestBody = {
         contents: [{
@@ -119,16 +111,16 @@ CRITICAL INSTRUCTIONS:
                 data: userPhotoBase64
               }
             },
-            // Second: the transformation prompt - Modificar para ser mais específico sobre gerar imagem
+            // Second: the optimized NanoBanana prompt
             {
-              text: `Please generate an image based on this prompt: ${enhancedPrompt}. Create a new professional photo that transforms this person according to the description while preserving their identity.`
+              text: enhancedPrompt
             }
           ]
         }],
         generationConfig: {
-          temperature: 0.4,
-          topK: 32,
-          topP: 0.95,
+          temperature: 0.3,
+          topK: 40,
+          topP: 0.9,
           candidateCount: 1
         }
       };

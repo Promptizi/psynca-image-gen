@@ -10,8 +10,7 @@ import { Upload, Wand2, ArrowLeft, AlertCircle, Download, ArrowRight, Camera, Gr
 import { Link, useSearchParams } from "react-router-dom";
 import { imageGenerationService, ProfessionalTemplate } from "@/services/imageGeneration";
 import { useToast } from "@/hooks/use-toast";
-import { templateCategories, getCategoryBySlug } from "@/data/templateCategories";
-import { getTemplatePlaceholder } from "@/utils/templatePlaceholders";
+import { templateCategories, getCategoryBySlug, getTemplateThumbnail, clearThumbnailCache } from "@/data/templateCategories";
 import { useTemplateSearch } from "@/hooks/useTemplateSearch";
 
 type GenerationStep = 'template' | 'upload' | 'generating' | 'result';
@@ -46,6 +45,9 @@ export default function Generate() {
 
   // Verificar se veio com categoria ou template da Home
   useEffect(() => {
+    // Limpar cache de thumbnails para sempre mostrar as mais novas (imagens de referência reais)
+    clearThumbnailCache();
+
     const categorySlug = searchParams.get('category');
     const templateId = searchParams.get('template');
     const prompt = searchParams.get('prompt');
@@ -330,7 +332,7 @@ export default function Generate() {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <img
-                  src={getTemplatePlaceholder(selectedTemplate.id, selectedTemplate.title)}
+                  src={getTemplateThumbnail(selectedTemplate.id, selectedTemplate.title)}
                   alt={selectedTemplate.title}
                   className="w-10 h-10 rounded-lg object-cover"
                 />
