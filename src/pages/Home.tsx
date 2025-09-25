@@ -10,9 +10,10 @@ import { clearThumbnailCache, templateCategories } from "@/data/templateCategori
 export default function Home() {
   const userCredits = 15;
 
-  // Limpar cache de thumbnails para garantir que as imagens de referência reais sejam exibidas
+  // Limpar cache de thumbnails para garantir que as thumbnails geradas sejam exibidas
   useEffect(() => {
     clearThumbnailCache();
+    console.log('✅ Cache limpo - carregando thumbnails geradas com IA');
   }, []);
 
   // Otimizar: apenas carregar os primeiros 4 templates de cada categoria para a Home

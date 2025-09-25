@@ -32,56 +32,56 @@ export const clearThumbnailCache = (): void => {
   console.log('🗑️ Cache de thumbnails limpo');
 };
 
-// Mapeamento de imagens de referência específicas para profissionais de saúde mental
-// Organizadas por características visuais e cenários apropriados
+// Thumbnails geradas com IA usando a imagem de referência
+// Substituindo as imagens de referência por thumbnails reais geradas
 const mentalHealthReferenceMapping: Record<string, string> = {
-  // Retratos Profissionais - Headshots e LinkedIn
-  'professional-headshot-male-formal': '/Referencia_img_prompt/8b679a8e85572fa52abe386fb703c7db.jpg', // Homem sorrindo profissional
-  'professional-headshot-female-formal': '/Referencia_img_prompt/fcbf9043fba4c1d155c79ddcbbcc2f2d.jpg', // Mulher blazer confiante
-  'linkedin-portrait-male-casual': '/Referencia_img_prompt/5979a3263236ad5c98edf21fd059de33.jpg', // Homem ambiente descontraído
-  'linkedin-portrait-female-casual': '/Referencia_img_prompt/2a85f7637a6784a15d67839ad4dbc646.jpg', // Mulher óculos sorrindo
-  'executive-portrait-female': '/Referencia_img_prompt/5cf10bdea2d17717b8d92ae41ae16e7f.jpg', // Mulher blazer bege formal
-  'friendly-headshot-male': '/Referencia_img_prompt/96a892ae66af8001fa2fdd0a9de1be3d.jpg', // Homem luz natural sorrindo
+  // Retratos Profissionais - Thumbnails geradas
+  'professional-headshot-male-formal': '/generated-thumbnails/professional-headshot-male-formal.jpg',
+  'professional-headshot-female-formal': '/generated-thumbnails/professional-headshot-female-formal.jpg',
+  'linkedin-portrait-male-casual': '/generated-thumbnails/linkedin-portrait-male-casual.jpg',
+  'linkedin-portrait-female-casual': '/generated-thumbnails/linkedin-portrait-female-casual.jpg',
+  'executive-portrait-female': '/generated-thumbnails/executive-portrait-female.jpg',
+  'friendly-headshot-male': '/generated-thumbnails/friendly-headshot-male.jpg',
 
-  // Consultório & Terapia - Ambientes terapêuticos
-  'therapy-session-female': '/Referencia_img_prompt/af247a85180365abf528c9d0cb1a8f8f.jpg', // Mulher videochamada profissional
-  'consultation-room-female': '/Referencia_img_prompt/98bddbaacadf0d38cbb3ad9bac1edffc.jpg', // Mulher lendo consultório plantas
-  'group-therapy-facilitator': '/Referencia_img_prompt/68b92bd638fb43baaeddd05e461589a5.jpg', // Ambiente acolhedor profissional
-  'clinical-assessment': '/Referencia_img_prompt/98efeba94ed21727d7a11cf0cba18477.jpg', // Ambiente clínico organizado
-  'therapeutic-conversation': '/Referencia_img_prompt/e888e9bd03310fa74d9fce3e4d7323d9.jpg', // Conversa terapêutica
-  'family-therapy-setting': '/Referencia_img_prompt/c5dc29de97954f5d6ac1528782e979ab.jpg', // Ambiente familiar acolhedor
+  // Consultório & Terapia - Thumbnails geradas
+  'therapy-session-female': '/generated-thumbnails/therapy-session-female.jpg',
+  'consultation-room-female': '/generated-thumbnails/consultation-room-female.jpg',
+  'group-therapy-facilitator': '/generated-thumbnails/group-therapy-facilitator.jpg',
+  'clinical-assessment': '/generated-thumbnails/clinical-assessment.jpg',
+  'therapeutic-conversation': '/generated-thumbnails/therapeutic-conversation.jpg',
+  'family-therapy-setting': '/generated-thumbnails/family-therapy-setting.jpg',
 
-  // Home Office & Teleconsulta
-  'home-office-consultation': '/Referencia_img_prompt/090d55dd737e282186daa3e6b8b1a759.jpg', // Home office múltiplas poses
-  'video-therapy-session': '/Referencia_img_prompt/79706985f4d21de08759e1af10ee42f0.jpg', // Videochamada profissional
-  'online-counseling-male': '/Referencia_img_prompt/0c6c8e72d4a991e2feea97eb7f240bb7.jpg', // Homem ambiente moderno
-  'teletherapy-setup': '/Referencia_img_prompt/354ff031c5b225c11a8ca76d9903d33e.jpg', // Setup teleconsulta
-  'remote-consultation': '/Referencia_img_prompt/5e62fc17b2498c17a0705e31b482733e.jpg', // Consulta remota organizada
-  'digital-therapy-female': '/Referencia_img_prompt/743c04fb8dc745828a473633c9c8f54b.jpg', // Mulher ambiente digital
+  // Home Office & Teleconsulta - Thumbnails geradas
+  'home-office-consultation': '/generated-thumbnails/home-office-consultation.jpg',
+  'video-therapy-session': '/generated-thumbnails/video-therapy-session.jpg',
+  'online-counseling-male': '/generated-thumbnails/online-counseling-male.jpg',
+  'teletherapy-setup': '/generated-thumbnails/teletherapy-setup.jpg',
+  'remote-consultation': '/generated-thumbnails/remote-consultation.jpg',
+  'digital-therapy-female': '/generated-thumbnails/digital-therapy-female.jpg',
 
-  // Workshops & Palestras
-  'workshop-presenter-female': '/Referencia_img_prompt/9817ffd52ce0d111bc423f339d49ee26.jpg', // Mulher apresentando
-  'seminar-speaker-male': '/Referencia_img_prompt/a0bfb042d4bcd71a55d3713062107e04.jpg', // Homem palestrando
-  'training-facilitator': '/Referencia_img_prompt/aea67a524a8d4add363ac4de89ad041f.jpg', // Facilitador treinamento
-  'conference-presenter': '/Referencia_img_prompt/a936b361e02a67cd05a58427495f1eff.jpg', // Apresentação conferência
-  'workshop-interaction': '/Referencia_img_prompt/12078184ea46bdbd2390c9c4f92aaa66.jpg', // Interação workshop
-  'educational-speaker': '/Referencia_img_prompt/1611430379f0a847cd38f99ad725659e.jpg', // Palestrante educacional
+  // Workshops & Palestras - Thumbnails geradas
+  'workshop-presenter-female': '/generated-thumbnails/workshop-presenter-female.jpg',
+  'seminar-speaker-male': '/generated-thumbnails/seminar-speaker-male.jpg',
+  'training-facilitator': '/generated-thumbnails/training-facilitator.jpg',
+  'conference-presenter': '/generated-thumbnails/conference-presenter.jpg',
+  'workshop-interaction': '/generated-thumbnails/workshop-interaction.jpg',
+  'educational-speaker': '/generated-thumbnails/educational-speaker.jpg',
 
-  // Lifestyle Profissional
-  'coffee-consultation': '/Referencia_img_prompt/1e23165b906b0b0c28a15f11bc5330d8.jpg', // Consulta descontraída
-  'outdoor-therapy-walk': '/Referencia_img_prompt/1ecd432f61b6685192d6f99bca37d445.jpg', // Terapia ao ar livre
-  'coworking-space': '/Referencia_img_prompt/20ac5fa7d4837201981f7bc7808214bd.jpg', // Espaço coworking
-  'wellness-lifestyle': '/Referencia_img_prompt/28340bb452e13674f93702a1e1966b2c.jpg', // Lifestyle bem-estar
-  'professional-networking': '/Referencia_img_prompt/294acd061150869e34a5d29dea230bb8.jpg', // Networking profissional
-  'mindful-break': '/Referencia_img_prompt/2de52cf34761786f56a12ce8546fccb8.jpg', // Pausa mindful
+  // Lifestyle Profissional - Thumbnails geradas
+  'coffee-consultation': '/generated-thumbnails/coffee-consultation.jpg',
+  'outdoor-therapy-walk': '/generated-thumbnails/outdoor-therapy-walk.jpg',
+  'coworking-space': '/generated-thumbnails/coworking-space.jpg',
+  'wellness-lifestyle': '/generated-thumbnails/wellness-lifestyle.jpg',
+  'professional-networking': '/generated-thumbnails/professional-networking.jpg',
+  'mindful-break': '/generated-thumbnails/mindful-break.jpg',
 
-  // Estúdio Criativo
-  'studio-portrait-dramatic': '/Referencia_img_prompt/6cd98f1c9ab6bebc049e27bcc74a28aa.jpg', // Retrato dramático estúdio
-  'creative-headshot': '/Referencia_img_prompt/28340bb452e13674f93702a1e1966b2c.jpg', // Headshot criativo
-  'artistic-portrait': '/Referencia_img_prompt/e5969210290cd79b4b33bfa2e8863677.jpg', // Retrato artístico
-  'minimalist-studio': '/Referencia_img_prompt/5cf10bdea2d17717b8d92ae41ae16e7f.jpg', // Estúdio minimalista
-  'professional-branding': '/Referencia_img_prompt/fcbf9043fba4c1d155c79ddcbbcc2f2d.jpg', // Branding profissional
-  'dynamic-portrait': '/Referencia_img_prompt/2a85f7637a6784a15d67839ad4dbc646.jpg' // Retrato dinâmico
+  // Estúdio Criativo - Thumbnails geradas
+  'studio-portrait-dramatic': '/generated-thumbnails/studio-portrait-dramatic.jpg',
+  'creative-headshot': '/generated-thumbnails/artistic-portrait.jpg', // Usando artistic como alternativa
+  'artistic-portrait': '/generated-thumbnails/artistic-portrait.jpg',
+  'minimalist-studio': '/generated-thumbnails/minimalist-studio.jpg',
+  'professional-branding': '/generated-thumbnails/professional-branding.jpg',
+  'dynamic-portrait': '/generated-thumbnails/dynamic-portrait.jpg'
 };
 
 // Fallback para imagens de referência originais (para templates não mapeados)
