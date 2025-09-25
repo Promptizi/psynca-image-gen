@@ -5,12 +5,13 @@ import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
 import { SearchBar } from "@/components/ui/search-bar";
 import { TemplateCard } from "@/components/ui/template-card";
+import { TemplateFilters } from "@/components/ui/template-filters";
 import { UploadZone } from "@/components/ui/upload-zone";
 import { Upload, Wand2, ArrowLeft, AlertCircle, Download, ArrowRight, Camera, Grid3X3, List, Filter, Check } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { imageGenerationService, ProfessionalTemplate } from "@/services/imageGeneration";
 import { useToast } from "@/hooks/use-toast";
-import { templateCategories, getCategoryBySlug, getTemplateThumbnail, clearThumbnailCache } from "@/data/templateCategories";
+import { templateCategories, getCategoryBySlug, getTemplateThumbnail, clearThumbnailCache, filterTemplates, TemplateFilters as FilterOptions } from "@/data/templateCategories";
 import { useTemplateSearch } from "@/hooks/useTemplateSearch";
 
 type GenerationStep = 'template' | 'upload' | 'generating' | 'result';
@@ -26,6 +27,7 @@ export default function Generate() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<FilterOptions>({});
   const userCredits = 15;
   const { toast } = useToast();
 
@@ -78,8 +80,32 @@ export default function Generate() {
     }
   }, [searchParams]);
 
-  // Always show all categories, but scroll to selected one
-  const categoriesToShow = templateCategories;
+  // Combine existing filters with advanced filters
+  const getFilteredCategories = () => {
+    // Start with categories filtered by search and category selection
+    let categories = filteredCategories;
+
+    // Apply advanced filters to each category's templates
+    return categories.map(category => ({
+      ...category,
+      templates: category.templates.filter(template => {
+        // Apply advanced filters
+        if (advancedFilters.gender && template.gender !== advancedFilters.gender && template.gender !== 'unisex') {
+          return false;
+        }
+        if (advancedFilters.style && template.style !== advancedFilters.style) {
+          return false;
+        }
+        if (advancedFilters.scenario && template.scenario !== advancedFilters.scenario) {
+          return false;
+        }
+        return true;
+      })
+    })).filter(category => category.templates.length > 0); // Only show categories with matching templates
+  };
+
+  const finalFilteredCategories = getFilteredCategories();
+  const advancedFilteredTemplateCount = finalFilteredCategories.reduce((acc, category) => acc + category.templates.length, 0);
 
   const handleTemplateSelect = (template: { id: string; title: string; image: string; prompt: string }) => {
     // Convert template from templateCategories format to ProfessionalTemplate
@@ -205,7 +231,14 @@ export default function Generate() {
                 />
               </div>
 
-              {/* View Toggle - moved next to search */}
+              {/* Advanced Filters */}
+              <TemplateFilters
+                filters={advancedFilters}
+                onFiltersChange={setAdvancedFilters}
+                totalResults={advancedFilteredTemplateCount}
+              />
+
+              {/* View Toggle */}
               <div className="flex bg-card/50 rounded-lg p-1 border border-border/50">
                 <button
                   onClick={() => setViewMode('grid')}
@@ -267,7 +300,7 @@ export default function Generate() {
 
           {/* Templates Grid/List */}
           <div className="space-y-6">
-            {filteredCategories.map((category, categoryIndex) => (
+            {finalFilteredCategories.map((category, categoryIndex) => (
               <div
                 key={categoryIndex}
                 id={`category-${category.title.toLowerCase().replace(/\s+/g, '-')}`}
@@ -294,7 +327,7 @@ export default function Generate() {
             ))}
 
             {/* Empty State */}
-            {filteredCategories.length === 0 && (
+            {finalFilteredCategories.length === 0 && (
               <div className="text-center py-16">
                 <div className="w-20 h-20 bg-muted/20 rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Filter className="h-8 w-8 text-muted-foreground" />
@@ -309,6 +342,7 @@ export default function Generate() {
                   variant="outline"
                   onClick={() => {
                     clearAllFilters();
+                    setAdvancedFilters({});
                     toast({
                       title: "Filtros removidos!",
                       description: "Todos os templates estão disponíveis novamente",
