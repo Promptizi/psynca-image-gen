@@ -31,8 +31,12 @@ class ImageGenerationService {
   constructor() {
     this.apiKey = import.meta.env.VITE_GOOGLE_NANO_BANAN_API_KEY;
     if (!this.apiKey) {
-      throw new Error('Gemini API key not configured');
+      console.warn('Gemini API key not configured - using demo mode');
     }
+  }
+
+  private get isApiConfigured(): boolean {
+    return Boolean(this.apiKey);
   }
 
   private async fileToBase64(file: File): Promise<string> {
@@ -77,7 +81,20 @@ class ImageGenerationService {
   async generateWithTemplate(request: TemplateGenerationRequest): Promise<GenerationResponse> {
     try {
       console.log('Generating professional image with template:', request.template.title);
-      
+
+      // Check if API is configured, fallback to demo mode
+      if (!this.isApiConfigured) {
+        console.log('API not configured, returning demo image');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        return {
+          success: true,
+          imageUrl: this.generateDemoImage({
+            prompt: request.template.prompt,
+            template: request.template.category
+          })
+        };
+      }
+
       // Convert user photo to base64
       const userPhotoBase64 = await this.fileToBase64(request.userPhoto);
       

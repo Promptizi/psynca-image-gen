@@ -1,16 +1,43 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://qflgmcuyxnvflzglfoon.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGdtY3V5eG52Zmx6Z2xmb29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2ODY5OTEsImV4cCI6MjA3MDI2Mjk5MX0.YY9Y8f8b7VYPRU8aB1X5tuVPAX63x-KxI1VjQz9xINg";
+// Validação rigorosa das variáveis de ambiente
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL) {
+  throw new Error('VITE_SUPABASE_URL environment variable is required');
+}
+
+if (!SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error('VITE_SUPABASE_ANON_KEY environment variable is required');
+}
+
+// Validate URL format
+try {
+  new URL(SUPABASE_URL);
+} catch {
+  throw new Error('VITE_SUPABASE_URL must be a valid URL');
+}
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: localStorage,
+    storage: typeof window !== 'undefined' ? localStorage : undefined,
     persistSession: true,
     autoRefreshToken: true,
-  }
+    detectSessionInUrl: true,
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 2,
+    },
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'psynka-studio-web',
+    },
+  },
 });

@@ -59,7 +59,7 @@ export default function Generate() {
   // Always show all categories, but scroll to selected one
   const categoriesToShow = templateCategories;
 
-  const handleTemplateSelect = (template: any) => {
+  const handleTemplateSelect = (template: { id: string; title: string; image: string; prompt: string }) => {
     // Convert template from templateCategories format to ProfessionalTemplate
     const convertedTemplate: ProfessionalTemplate = {
       id: template.id,
