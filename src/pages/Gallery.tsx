@@ -68,7 +68,7 @@ export default function Gallery() {
               className={`flex-shrink-0 ${
                 selectedFilter === filter.id
                   ? 'bg-gradient-primary text-white border-0'
-                  : 'border-border/50 hover:border-primary/50'
+                  : 'border-border/50'
               }`}
             >
               {filter.label}

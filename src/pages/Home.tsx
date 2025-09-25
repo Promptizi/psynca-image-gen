@@ -177,78 +177,70 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1a1625] pb-20">
-      {/* Header como Artifex */}
+    <div className="min-h-screen bg-background pb-20">
+      {/* Header */}
       <header className="px-4 py-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Psynka</h1>
-        <button className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-full text-white text-sm font-semibold">
-          Get Pro
-        </button>
+        <h1 className="text-2xl font-bold text-foreground">Psynka</h1>
+        <CreditDisplay credits={userCredits} />
       </header>
 
-      {/* Hero Card como Artifex - Responsivo */}
-      <div className="px-4 mb-8 md:px-8 lg:px-12">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900 to-blue-900 p-6 md:p-8 lg:p-10 max-w-6xl mx-auto">
+      {/* Hero Card */}
+      <div className="px-4 mb-8">
+        <Card className="relative overflow-hidden bg-gradient-primary p-6">
           <div className="relative z-10">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
-              Eleve suas Imagens
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Transforme suas Imagens
             </h2>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">
-              com Magia de IA
-            </h2>
-            <p className="text-white/70 mb-6 md:text-lg">Transforme suas imagens com Magia IA</p>
+            <p className="text-white/80 mb-4">Crie imagens profissionais com IA</p>
             <Link to="/generate">
-              <button className="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-3 rounded-full text-white font-semibold md:px-8 md:py-4 md:text-lg">
-                Explore Agora
-              </button>
+              <Button className="bg-white text-primary hover:bg-white/90">
+                <Wand2 className="mr-2 h-4 w-4" />
+                Começar Agora
+              </Button>
             </Link>
           </div>
-          {/* Imagem de fundo hero */}
-          <div className="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 lg:w-1/3">
-            <img 
-              src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=400&fit=crop&sat=2&con=1.2"
-              alt="Professional"
-              className="w-full h-full object-cover opacity-80"
-            />
-          </div>
-        </div>
+        </Card>
       </div>
 
-      {/* Categories - 1 exemplo por categoria em boxes grandes */}
-      <div className="px-4 md:px-8 lg:px-12 max-w-4xl mx-auto space-y-8">
+      {/* Template Categories with Carousel */}
+      <div className="space-y-8">
         {templateCategories.map((category, categoryIndex) => (
-          <Link key={categoryIndex} to={`/generate?category=${encodeURIComponent(category.title.toLowerCase().replace(/\s+/g, '-'))}`}>
-            <div className="relative rounded-3xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8 mb-4">
-              <div className="flex items-center space-x-6">
-                {/* Texto da categoria */}
-                <div className="flex-1 z-10 relative">
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{category.title}</h2>
-                  <p className="text-white/70 text-sm md:text-base mb-4">
-                    {categoryIndex === 0 && "Retratos profissionais e corporativos"}
-                    {categoryIndex === 1 && "Ambientes de consultório e terapia"}
-                    {categoryIndex === 2 && "Especialidades em psicologia clínica"}
-                    {categoryIndex === 3 && "Bem-estar e práticas integrativas"}
-                  </p>
-                  <div className="flex items-center text-purple-300 text-sm font-medium">
-                    <span>{category.templates.length} templates</span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
-                </div>
-                
-                {/* Imagem exemplo da categoria */}
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden flex-shrink-0">
-                  <img 
-                    src={category.templates[0].image}
-                    alt={category.title}
-                    className="w-full h-full object-cover filter saturate-150 contrast-110"
-                  />
-                </div>
-              </div>
-              
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-cyan-500/10 mix-blend-overlay" />
+          <div key={categoryIndex} className="px-4">
+            {/* Category Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-foreground">{category.title}</h3>
+              <Link to={`/generate?category=${encodeURIComponent(category.title.toLowerCase().replace(/\s+/g, '-'))}`}>
+                <Button variant="ghost" size="sm" className="text-muted-foreground">
+                  Ver Todos
+                  <ArrowRight className="ml-1 h-3 w-3" />
+                </Button>
+              </Link>
             </div>
-          </Link>
+
+            {/* Templates Carousel */}
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              {category.templates.slice(0, 4).map((template) => (
+                <Link
+                  key={template.id}
+                  to={`/generate?template=${template.id}&prompt=${encodeURIComponent(template.prompt)}`}
+                  className="flex-shrink-0"
+                >
+                  <div className="w-32 relative">
+                    <div className="aspect-square rounded-2xl overflow-hidden bg-card border border-border/50">
+                      <img
+                        src={template.image}
+                        alt={template.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-muted-foreground text-center line-clamp-1">
+                      {template.title}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
 

@@ -3,12 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
-import { Sparkles, Upload, Wand2, ArrowLeft, AlertCircle, Download, ArrowRight, Camera } from "lucide-react";
+import { SearchBar } from "@/components/ui/search-bar";
+import { TemplateCard } from "@/components/ui/template-card";
+import { UploadZone } from "@/components/ui/upload-zone";
+import { Upload, Wand2, ArrowLeft, AlertCircle, Download, ArrowRight, Camera, Grid3X3, List, Filter, Check } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { imageGenerationService, ProfessionalTemplate } from "@/services/imageGeneration";
 import { useToast } from "@/hooks/use-toast";
 import { templateCategories, getCategoryBySlug } from "@/data/templateCategories";
 import { getTemplatePlaceholder } from "@/utils/templatePlaceholders";
+import { useTemplateSearch } from "@/hooks/useTemplateSearch";
 
 type GenerationStep = 'template' | 'upload' | 'generating' | 'result';
 
@@ -21,8 +25,22 @@ export default function Generate() {
   const [error, setError] = useState<string | null>(null);
   const [customPrompt, setCustomPrompt] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const userCredits = 15;
   const { toast } = useToast();
+  const {
+    searchQuery,
+    activeCategories,
+    activeTags,
+    availableTags,
+    filteredCategories,
+    totalFilteredTemplates,
+    hasActiveFilters,
+    handleSearch,
+    handleCategoryToggle,
+    handleTagToggle,
+    clearAllFilters
+  } = useTemplateSearch();
 
   // Verificar se veio com categoria ou template da Home
   useEffect(() => {
@@ -69,6 +87,7 @@ export default function Generate() {
       category: 'custom',
       prompt: template.prompt
     };
+
     setSelectedTemplate(convertedTemplate);
     setStep('upload');
   };
@@ -99,9 +118,10 @@ export default function Generate() {
       if (result.success && result.imageUrl) {
         setGeneratedImageUrl(result.imageUrl);
         setStep('result');
+
         toast({
-          title: "✨ Imagem profissional criada!",
-          description: "Sua foto foi transformada com sucesso.",
+          title: "Imagem criada com sucesso!",
+          description: "Sua transformação profissional está pronta.",
         });
       } else {
         setError(result.error || 'Erro ao gerar imagem profissional');
@@ -142,189 +162,203 @@ export default function Generate() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a1625] pb-20">
-      {/* Header simples como Artifex */}
+    <div className="min-h-screen bg-background pb-20">
+      {/* Professional Header */}
       <header className="px-4 py-6 flex items-center justify-between">
         <Link to="/">
-          <button className="p-2">
+          <button className="p-2 transition-colors hover:bg-white/10 rounded-xl">
             <ArrowLeft className="h-6 w-6 text-white" />
           </button>
         </Link>
-        <h1 className="text-xl font-bold text-white">
-          {step === 'template' ? 'Templates' : 
+
+        <h1 className="text-xl font-semibold text-foreground">
+          {step === 'template' ? 'Templates' :
            step === 'upload' ? 'Upload' :
-           step === 'generating' ? 'Processing...' : 'Result'}
+           step === 'generating' ? 'Gerando...' : 'Resultado'}
         </h1>
-        <div className="bg-purple-600 px-3 py-1 rounded-full">
-          <span className="text-white text-sm font-bold">{userCredits}</span>
+
+        <div className="bg-card/50 px-3 py-1 rounded-xl border border-border/50">
+          <span className="text-foreground text-sm font-medium flex items-center gap-1">
+            {userCredits < 5 && <AlertCircle className="h-3 w-3 text-orange-400" />}
+            {userCredits} créditos
+          </span>
         </div>
       </header>
 
-      {/* Templates com filtros de categoria */}
+      {/* Template Selection with Advanced Filters */}
       {step === 'template' && (
         <div className="px-4 md:px-8 lg:px-12">
-          {/* Category Filters */}
-          <div className="mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-4 px-2">Categorias</h2>
-            <div className="flex space-x-3 overflow-x-auto pb-2">
-              <button
-                onClick={() => setSelectedCategory(null)}
-                className={`flex-shrink-0 backdrop-blur-md border px-4 md:px-6 py-2 md:py-3 rounded-2xl text-sm md:text-base font-medium transition-all ${
-                  !selectedCategory 
-                    ? 'bg-gradient-to-r from-purple-500/40 to-blue-500/40 border-purple-500/50 text-white' 
-                    : 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 border-purple-500/30 text-white/70 hover:from-purple-500/30 hover:to-blue-500/30'
+          {/* Search Section */}
+          <div className="mb-6">
+            <div className="flex gap-3 items-center mb-4">
+              <div className="flex-1">
+                <SearchBar
+                  onSearch={handleSearch}
+                  placeholder="Buscar templates..."
+                  className="w-full"
+                />
+              </div>
+
+              {/* View Toggle - moved next to search */}
+              <div className="flex bg-card/50 rounded-lg p-1 border border-border/50">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-md transition-all ${
+                    viewMode === 'grid'
+                      ? 'bg-primary/15 text-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-card/50'
+                  }`}
+                >
+                  <Grid3X3 className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-md transition-all ${
+                    viewMode === 'list'
+                      ? 'bg-primary/15 text-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-card/50'
+                  }`}
+                >
+                  <List className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Category filters - moved to right after search */}
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              <Button
+                variant={activeCategories.length === 0 ? "default" : "outline"}
+                size="sm"
+                onClick={() => clearAllFilters()}
+                className={`flex-shrink-0 ${
+                  activeCategories.length === 0
+                    ? 'bg-gradient-primary text-white border-0'
+                    : 'border-border/50'
                 }`}
               >
                 Todas
-              </button>
-              {templateCategories.map((category, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    const categorySlug = category.title.toLowerCase().replace(/\s+/g, '-');
-                    setSelectedCategory(categorySlug);
-                    const categoryElement = document.getElementById(`category-${categorySlug}`);
-                    if (categoryElement) {
-                      categoryElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }}
-                  className={`flex-shrink-0 backdrop-blur-md border px-4 md:px-6 py-2 md:py-3 rounded-2xl text-sm md:text-base font-medium transition-all ${
-                    selectedCategory === category.title.toLowerCase().replace(/\s+/g, '-')
-                      ? 'bg-gradient-to-r from-purple-500/40 to-blue-500/40 border-purple-500/50 text-white' 
-                      : 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 border-purple-500/30 text-white/70 hover:from-purple-500/30 hover:to-blue-500/30'
-                  }`}
-                >
-                  {category.title}
-                </button>
-              ))}
+              </Button>
+              {templateCategories.map((category) => {
+                const categorySlug = category.title.toLowerCase().replace(/\s+/g, '-');
+                return (
+                  <Button
+                    key={categorySlug}
+                    variant={activeCategories.includes(categorySlug) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleCategoryToggle(categorySlug)}
+                    className={`flex-shrink-0 ${
+                      activeCategories.includes(categorySlug)
+                        ? 'bg-gradient-primary text-white border-0'
+                        : 'border-border/50'
+                    }`}
+                  >
+                    {category.title}
+                  </Button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Templates por categoria com scroll horizontal */}
-          <div className="space-y-8 md:space-y-12">
-            {categoriesToShow.map((category, categoryIndex) => (
-              <div 
-                key={categoryIndex} 
+          {/* Templates Grid/List */}
+          <div className="space-y-6">
+            {filteredCategories.map((category, categoryIndex) => (
+              <div
+                key={categoryIndex}
                 id={`category-${category.title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="mb-8"
+                className="mb-6"
               >
-                {/* Category Header */}
-                <div className="flex items-center justify-between mb-4 md:mb-6 px-2">
-                  <div>
-                    <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">{category.title}</h3>
-                    <p className="text-white/70 text-sm md:text-base">{category.description}</p>
-                  </div>
-                </div>
-
-                {/* Templates em scroll horizontal */}
-                <div className="flex space-x-4 md:space-x-6 overflow-x-auto pb-4">
-                  {category.templates.map((template) => (
-                    <div
+                {/* Templates in Grid or List - without category headers */}
+                <div className={`grid gap-4 ${
+                  viewMode === 'grid'
+                    ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
+                    : 'grid-cols-1'
+                }`}>
+                  {category.templates.map((template, templateIndex) => (
+                    <TemplateCard
                       key={template.id}
-                      className="relative flex-shrink-0 w-48 md:w-56 lg:w-64 rounded-2xl overflow-hidden cursor-pointer group"
-                      onClick={() => handleTemplateSelect(template)}
-                    >
-                      <img
-                        src={template.image}
-                        alt={template.title}
-                        className="w-full h-56 md:h-64 lg:h-72 object-cover filter saturate-150 contrast-110 group-hover:saturate-200 transition-all duration-300"
-                      />
-                      {/* Neon glow effect */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 mix-blend-overlay" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h4 className="text-white font-bold text-sm md:text-base mb-2">{template.title}</h4>
-                        <div className="flex justify-center">
-                          <button className="bg-gradient-to-r from-purple-500 to-pink-500 backdrop-blur-md px-4 md:px-5 py-1.5 md:py-2 rounded-full text-white text-xs md:text-sm font-semibold shadow-lg hover:shadow-purple-500/50 transition-all">
-                            Usar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                      template={template}
+                      onSelect={handleTemplateSelect}
+                      isPopular={templateIndex < 2}
+                      className={viewMode === 'list' ? 'list-view' : ''}
+                      categoryTitle={category.title}
+                    />
                   ))}
                 </div>
               </div>
             ))}
+
+            {/* Empty State */}
+            {filteredCategories.length === 0 && (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 bg-white/5 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Filter className="h-8 w-8 text-white/50" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  Nenhum template encontrado
+                </h3>
+                <p className="text-muted-foreground mb-4">Tente fazer uma busca diferente.</p>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    clearAllFilters();
+                    toast({
+                      title: "Filtros removidos",
+                      description: "Mostrando todos os templates novamente.",
+                    });
+                  }}
+                  className="border-border/50 text-foreground hover:bg-card/50"
+                >
+                  Mostrar todos
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* STEP 2: Photo Upload - Artifex Style */}
+      {/* Upload Section */}
       {step === 'upload' && selectedTemplate && (
-        <section className="px-6">
+        <section className="px-4">
           {/* Selected Template Preview */}
-          <div className="glass-morphism p-6 rounded-3xl mb-8">
-            <div className="flex items-center space-x-4 mb-4">
-              <img 
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 rounded-2xl mb-6">
+            <div className="flex items-center space-x-4">
+              <img
                 src={getTemplatePlaceholder(selectedTemplate.id, selectedTemplate.title)}
                 alt={selectedTemplate.title}
-                className="w-20 h-20 rounded-2xl object-cover"
+                className="w-16 h-16 rounded-xl object-cover"
               />
               <div className="flex-1">
-                <h3 className="font-bold text-white text-xl">{selectedTemplate.title}</h3>
-                <p className="text-white/70 mb-3">{selectedTemplate.description}</p>
-                <button 
+                <h3 className="font-semibold text-white text-lg">{selectedTemplate.title}</h3>
+                <p className="text-white/70 text-sm mb-2">{selectedTemplate.description}</p>
+                <button
                   onClick={() => setStep('template')}
-                  className="flex items-center text-purple-300 hover:text-white transition-colors"
+                  className="flex items-center text-purple-300 hover:text-white transition-colors text-sm"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Trocar estilo
+                  <ArrowLeft className="mr-1 h-3 w-3" />
+                  Trocar template
                 </button>
               </div>
             </div>
           </div>
-          
-          {/* Photo Upload Area - Artifex Style */}
-          <div className="glass-morphism rounded-3xl p-8 text-center mb-6">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handlePhotoUpload(file);
-              }}
-              className="hidden"
-              id="photo-upload"
-            />
-            <label htmlFor="photo-upload" className="cursor-pointer block">
-              <div className="space-y-6">
-                <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl mx-auto flex items-center justify-center">
-                  <Camera className="h-12 w-12 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Envie sua foto</h3>
-                  <p className="text-white/70 text-lg mb-6">
-                    Escolha uma foto clara do seu rosto para melhor resultado
-                  </p>
-                  <div className="space-y-3 text-white/60 text-sm">
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span>Foto frontal e bem iluminada</span>
-                    </div>
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span>Rosto visível e centralizado</span>
-                    </div>
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span>JPG ou PNG até 10MB</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </label>
-          </div>
-          
+
+          {/* Upload Zone */}
+          <UploadZone
+            onFileSelect={handlePhotoUpload}
+            acceptedFormats={['image/jpeg', 'image/png', 'image/webp']}
+            maxSize={10}
+            className="mb-6"
+          />
+
           {/* Error Display */}
           {error && (
-            <div className="glass-morphism border-red-500/30 p-6 rounded-2xl">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-500/20 rounded-2xl flex items-center justify-center">
-                  <AlertCircle className="h-6 w-6 text-red-400" />
+            <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center mt-0.5">
+                  <AlertCircle className="h-5 w-5 text-red-400" />
                 </div>
                 <div>
-                  <p className="text-red-400 font-bold text-lg">Erro na geração</p>
-                  <p className="text-white/60 mt-2">{error}</p>
+                  <p className="text-red-400 font-semibold">Erro na geração</p>
+                  <p className="text-white/60 text-sm mt-1">{error}</p>
                 </div>
               </div>
             </div>
@@ -332,110 +366,129 @@ export default function Generate() {
         </section>
       )}
 
-      {/* STEP 3: Generating - Artifex Style */}
+      {/* Generating Section */}
       {step === 'generating' && selectedTemplate && (
-        <section className="px-6">
-          <div className="glass-morphism rounded-3xl p-12 text-center">
-            <div className="space-y-8">
-              {/* Animated Loader */}
+        <section className="px-4">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+            <div className="space-y-6">
+              {/* Simple Loader */}
               <div className="flex items-center justify-center">
                 <div className="relative">
-                  <div className="w-32 h-32 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
+                  <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                      <Wand2 className="h-10 w-10 text-white animate-pulse" />
-                    </div>
+                    <Wand2 className="h-6 w-6 text-purple-400" />
                   </div>
                 </div>
               </div>
-              
+
               {/* Status Text */}
               <div>
-                <h3 className="text-3xl font-bold text-white mb-4">Criando Magia IA</h3>
-                <p className="text-white/70 text-lg mb-6">
-                  Transformando sua foto no estilo: <span className="font-bold text-purple-300">{selectedTemplate.title}</span>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  Processando imagem
+                </h3>
+                <p className="text-white/70">
+                  Aplicando o estilo <span className="font-medium text-purple-300">{selectedTemplate.title}</span>
                 </p>
-                
-                {/* Features */}
-                <div className="space-y-4 text-white/60">
-                  <div className="flex items-center justify-center space-x-3">
-                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>✨ Mantendo sua identidade única</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-3">
-                    <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse delay-100"></div>
-                    <span>🎨 Aplicando estilo profissional</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-3">
-                    <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse delay-200"></div>
-                    <span>⚡ Processando com Gemini 2.5</span>
-                  </div>
+              </div>
+
+              {/* Simple Features List */}
+              <div className="space-y-2 text-white/60 text-sm">
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span>Mantendo identidade única</span>
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <span>Aplicando estilo profissional</span>
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <span>Processamento IA avançado</span>
                 </div>
               </div>
-              
-              {/* Progress Bar */}
-              <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse transition-all duration-1000" style={{ width: '70%' }}></div>
+
+              {/* Simple Progress Bar */}
+              <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                <div className="h-full bg-purple-500 rounded-full w-3/4 transition-all duration-1000"></div>
               </div>
-              
-              <p className="text-white/50 text-sm">Isso pode levar alguns segundos...</p>
+
+              <p className="text-white/50 text-sm">Aguarde alguns segundos...</p>
             </div>
           </div>
         </section>
       )}
 
-      {/* STEP 4: Result */}
+      {/* Result Section */}
       {step === 'result' && generatedImageUrl && selectedTemplate && (
-        <section className="px-4 space-y-6">
-          <Card className="p-6 bg-gradient-card border border-primary/20">
-            <div className="space-y-6">
+        <section className="px-4">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+            <div className="space-y-4">
               {/* Result Header */}
               <div className="text-center">
-                <h3 className="text-2xl font-bold gradient-text mb-2">✨ Sua Foto Profissional</h3>
-                <p className="text-muted-foreground">Estilo: {selectedTemplate.title}</p>
+                <h3 className="text-xl font-semibold text-white mb-1 flex items-center justify-center gap-2">
+                  <Check className="h-5 w-5 text-green-400" />
+                  Imagem criada com sucesso
+                </h3>
+                <p className="text-white/70 text-sm">
+                  Estilo: {selectedTemplate.title}
+                </p>
               </div>
-              
+
               {/* Generated Image */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                <div className="relative w-full rounded-2xl overflow-hidden bg-muted/20">
-                  <img 
-                    src={generatedImageUrl} 
-                    alt="Imagem profissional gerada"
-                    className="w-full h-auto object-contain max-h-[400px] rounded-2xl"
-                  />
+              <div className="relative w-full rounded-xl overflow-hidden bg-black/20">
+                <img
+                  src={generatedImageUrl}
+                  alt="Imagem profissional gerada"
+                  className="w-full h-auto object-contain max-h-[400px] rounded-xl"
+                />
+
+                {/* Success indicator */}
+                <div className="absolute top-2 right-2 bg-green-500/80 backdrop-blur-sm rounded-full p-1.5">
+                  <Check className="h-3 w-3 text-white" />
                 </div>
               </div>
-              
+
               {/* Actions */}
-              <div className="grid grid-cols-2 gap-4">
-                <Button 
-                  onClick={downloadImage}
-                  className="bg-gradient-primary text-white hover:scale-105 transition-transform duration-200"
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  onClick={() => {
+                    downloadImage();
+                    toast({
+                      title: "Download iniciado",
+                      description: "Sua imagem está sendo baixada.",
+                    });
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  Download
+                  Baixar
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
-                  onClick={resetFlow}
-                  className="border-border/50 hover:border-primary/50"
+                  onClick={() => {
+                    resetFlow();
+                    toast({
+                      title: "Novo template",
+                      description: "Escolha outro template para criar uma nova imagem.",
+                    });
+                  }}
+                  className="border-white/20 text-white hover:bg-white/5"
                 >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Nova Foto
+                  Criar Nova
                 </Button>
               </div>
-              
-              <div className="text-center">
+
+              <div className="text-center pt-2">
                 <Link to="/gallery">
-                  <Button variant="ghost" className="text-primary hover:text-accent">
+                  <Button variant="ghost" className="text-purple-300 hover:text-white text-sm">
+                    <Camera className="mr-1 h-3 w-3" />
                     Ver na Galeria
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                 </Link>
               </div>
             </div>
-          </Card>
+          </div>
         </section>
       )}
 
