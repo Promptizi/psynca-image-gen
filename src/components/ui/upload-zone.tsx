@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Camera, Upload, Check, X, AlertCircle, Image as ImageIcon } from "lucide-react";
+import { Camera, Upload, Check, X, AlertCircle, Image as ImageIcon, Sparkles, Zap } from "lucide-react";
 
 interface UploadZoneProps {
   onFileSelect: (file: File) => void;
@@ -18,16 +18,32 @@ export function UploadZone({
 }: UploadZoneProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const progressMessages = [
-    "Carregando...",
-    "Processando...",
-    "Quase pronto..."
+    "Magia acontecendo... ✨",
+    "Preparando sua transformação...",
+    "Quase lá! Ficou incrível!"
   ];
+
+  const encouragingMessages = [
+    "Processando sua imagem...",
+    "Aplicando transformações...",
+    "Finalizando..."
+  ];
+
+  const [currentEncouragement, setCurrentEncouragement] = useState(0);
+
+  useEffect(() => {
+    if (uploadStatus === 'uploading') {
+      const interval = setInterval(() => {
+        setCurrentEncouragement(prev => (prev + 1) % encouragingMessages.length);
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [uploadStatus]);
 
   const validateFile = (file: File): string | null => {
     if (!acceptedFormats.includes(file.type)) {
@@ -50,24 +66,14 @@ export function UploadZone({
     setUploadStatus('uploading');
     setErrorMessage("");
 
-    // Create image preview
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setSelectedImage(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-
     // Upload progress simulation
     for (let i = 0; i <= 100; i += 25) {
       setUploadProgress(i);
       await new Promise(resolve => setTimeout(resolve, 150));
     }
 
-    setUploadStatus('success');
-
-    setTimeout(() => {
-      onFileSelect(file);
-    }, 1000);
+    // Call callback directly after upload
+    onFileSelect(file);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -93,7 +99,6 @@ export function UploadZone({
   const resetUpload = () => {
     setUploadStatus('idle');
     setUploadProgress(0);
-    setSelectedImage(null);
     setErrorMessage("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -108,59 +113,33 @@ export function UploadZone({
 
   const getStatusColor = () => {
     switch (uploadStatus) {
-      case 'uploading': return 'border-blue-400/50 bg-blue-500/10';
-      case 'success': return 'border-green-400/50 bg-green-500/10';
-      case 'error': return 'border-red-400/50 bg-red-500/10';
-      default: return isDragOver ? 'border-purple-400/50 bg-purple-500/10' : 'border-white/20 bg-white/5';
+      case 'uploading': return 'border-primary/50 bg-primary/5';
+      case 'error': return 'border-destructive/50 bg-destructive/5';
+      default: return isDragOver ? 'border-primary/50 bg-primary/10' : 'border-border/50 bg-card/30';
     }
   };
 
   const getStatusIcon = () => {
     switch (uploadStatus) {
-      case 'uploading': return <Upload className="h-8 w-8 text-blue-400 animate-bounce" />;
-      case 'success': return <Check className="h-8 w-8 text-green-400" />;
-      case 'error': return <AlertCircle className="h-8 w-8 text-red-400" />;
-      default: return <Camera className="h-8 w-8 text-white/70" />;
+      case 'uploading': return (
+        <div className="relative">
+          <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-primary/20 rounded-full animate-ping" />
+        </div>
+      );
+      case 'error': return <AlertCircle className="h-6 w-6 text-destructive animate-shake" />;
+      default: return (
+        <div className={`transition-all duration-300 ${
+          isDragOver ? 'animate-celebration-bounce' : ''
+        }`}>
+          <Camera className={`h-6 w-6 transition-colors duration-300 ${
+            isDragOver ? 'text-primary' : 'text-muted-foreground'
+          }`} />
+        </div>
+      );
     }
   };
 
-  if (uploadStatus === 'success' && selectedImage) {
-    return (
-      <div className={`relative rounded-3xl overflow-hidden ${className}`}>
-        <div className="bg-gradient-to-br from-green-500/15 to-emerald-500/15 backdrop-blur-md border border-green-400/20 rounded-3xl p-6">
-          <div className="text-center space-y-4">
-            <div className="w-16 h-16 bg-green-500/20 rounded-full mx-auto flex items-center justify-center">
-              <Check className="h-8 w-8 text-green-400" />
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Imagem carregada!
-              </h3>
-              <p className="text-green-200/80">
-                Sua foto está pronta para ser processada
-              </p>
-            </div>
-
-            <div className="relative w-32 h-32 mx-auto rounded-2xl overflow-hidden border-2 border-green-400/30">
-              <img src={selectedImage} alt="Preview" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent" />
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={resetUpload}
-              className="border-green-400/30 text-green-300 hover:bg-green-500/20 transition-colors duration-150"
-            >
-              <X className="h-3 w-3 mr-1" />
-              Trocar imagem
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={`${className}`}>
@@ -181,65 +160,89 @@ export function UploadZone({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`
-          relative overflow-hidden rounded-3xl border-2 border-dashed
+          relative overflow-hidden rounded-2xl border-2 border-dashed
           transition-all duration-300 backdrop-blur-md
           ${getStatusColor()}
-          ${isDragOver ? 'scale-105 shadow-lg shadow-purple-500/20' : 'scale-100'}
-          ${uploadStatus === 'idle' ? 'cursor-pointer hover:border-purple-400/50 hover:bg-purple-500/10' : ''}
+          ${isDragOver ? 'scale-[1.02] shadow-card' : 'scale-100'}
+          ${uploadStatus === 'idle' ? 'cursor-pointer hover:border-primary/50 hover:bg-primary/5' : ''}
         `}
         onClick={() => uploadStatus === 'idle' && fileInputRef.current?.click()}
       >
 
-        <div className="p-12 text-center space-y-6">
+        <div className="p-6 sm:p-8 text-center space-y-4 sm:space-y-6">
+          {/* Magical sparkles for drag over */}
+          {isDragOver && (
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute top-4 left-4 w-2 h-2 bg-primary rounded-full animate-magic-sparkle" />
+              <div className="absolute top-8 right-8 w-1.5 h-1.5 bg-primary/60 rounded-full animate-magic-sparkle" style={{ animationDelay: '0.5s' }} />
+              <div className="absolute bottom-6 left-8 w-1 h-1 bg-primary/40 rounded-full animate-magic-sparkle" style={{ animationDelay: '1s' }} />
+              <div className="absolute bottom-4 right-4 w-2 h-2 bg-primary/80 rounded-full animate-magic-sparkle" style={{ animationDelay: '1.5s' }} />
+            </div>
+          )}
+
           {/* Status icon */}
           <div className={`
-            w-20 h-20 mx-auto rounded-full flex items-center justify-center
-            transition-all duration-300
-            ${uploadStatus === 'success' ? 'bg-green-500/20' :
-              uploadStatus === 'error' ? 'bg-red-500/20' :
-              uploadStatus === 'uploading' ? 'bg-blue-500/20' :
-              'bg-gradient-to-r from-purple-500/20 to-pink-500/20'}
+            w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full flex items-center justify-center
+            transition-all duration-500 ease-out
+            ${uploadStatus === 'error' ? 'bg-destructive/20 animate-shake' :
+              uploadStatus === 'uploading' ? 'bg-primary/20 animate-pulse' :
+              isDragOver ? 'bg-primary/20 scale-110 shadow-glow' : 'bg-primary/10'}
           `}>
             {getStatusIcon()}
           </div>
 
           {/* Status content */}
           {uploadStatus === 'idle' && (
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">
-                {isDragOver ? "Solte sua foto aqui" : "Envie sua foto"}
+            <div className="transition-all duration-300">
+              <h3 className={`text-lg sm:text-xl font-semibold mb-1 sm:mb-2 transition-all duration-300 ${
+                isDragOver
+                  ? 'text-primary scale-105'
+                  : 'text-foreground'
+              }`}>
+                {isDragOver ? "Solte aqui" : "Envie sua foto"}
               </h3>
-              <p className="text-white/70 text-lg mb-6">
-                Arraste e solte ou clique para selecionar
+              <p className={`text-sm sm:text-base mb-3 sm:mb-4 transition-all duration-300 ${
+                isDragOver
+                  ? 'text-primary/80'
+                  : 'text-muted-foreground'
+              }`}>
+                {isDragOver
+                  ? "Sua transformação está prestes a começar!"
+                  : "Arraste e solte ou clique para selecionar"}
               </p>
             </div>
           )}
 
           {uploadStatus === 'uploading' && (
-            <div>
-              <h3 className="text-2xl font-bold text-blue-400 mb-3">
-                Carregando...
-              </h3>
-              <p className="text-blue-200/80 mb-4">
+            <div className="animate-slide-up">
+              <h3 className="text-xl font-semibold text-foreground mb-2 animate-pulse">
                 {getProgressMessage()}
+              </h3>
+              <p className="text-primary/80 mb-4 animate-fade-in">
+                {encouragingMessages[currentEncouragement]}
               </p>
-              <div className="relative">
-                <Progress value={uploadProgress} className="w-full max-w-xs mx-auto h-3 rounded-full" />
+              <div className="relative mb-4">
+                <Progress value={uploadProgress} className="w-full max-w-xs mx-auto h-3 rounded-full overflow-hidden" />
+                {uploadProgress > 75 && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Zap className="h-3 w-3 text-primary animate-bounce" />
+                  </div>
+                )}
               </div>
-              <p className="text-blue-200/60 text-sm mt-3">
-                {uploadProgress}%
+              <p className="text-foreground text-sm font-medium animate-heartbeat">
+                {uploadProgress}% ✨
               </p>
             </div>
           )}
 
           {uploadStatus === 'error' && (
-            <div>
-              <h3 className="text-2xl font-bold text-red-400 mb-3">Ops! Algo deu errado</h3>
-              <p className="text-red-200/80 mb-4">{errorMessage}</p>
+            <div className="animate-slide-up">
+              <h3 className="text-xl font-semibold text-destructive mb-2">Erro no upload</h3>
+              <p className="text-muted-foreground mb-4">{errorMessage}</p>
               <Button
                 variant="outline"
                 onClick={resetUpload}
-                className="border-red-400/30 text-red-300 hover:bg-red-500/20"
+                className="border-border/50 text-foreground hover:bg-card/50 hover:scale-105 transition-transform duration-200"
               >
                 Tentar novamente
               </Button>
@@ -248,20 +251,20 @@ export function UploadZone({
 
           {/* Requirements (only show when idle) */}
           {uploadStatus === 'idle' && (
-            <div className="space-y-3 text-white/60 text-sm max-w-sm mx-auto">
-              <div className="grid grid-cols-1 gap-2">
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>Foto clara e bem iluminada</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>Rosto visível e centralizado</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>JPG, PNG ou WebP até {maxSize}MB</span>
-                </div>
+            <div className={`space-y-2 text-sm max-w-sm mx-auto transition-all duration-300 ${
+              isDragOver ? 'text-primary/60' : 'text-muted-foreground'
+            }`}>
+              <div className="flex items-center justify-center space-x-2">
+                <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  isDragOver ? 'bg-primary animate-pulse' : 'bg-primary'
+                }`}></div>
+                <span>Foto clara com rosto visível</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2">
+                <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  isDragOver ? 'bg-primary animate-pulse' : 'bg-primary'
+                }`} style={{ animationDelay: '0.2s' }}></div>
+                <span>JPG, PNG ou WebP até {maxSize}MB</span>
               </div>
             </div>
           )}

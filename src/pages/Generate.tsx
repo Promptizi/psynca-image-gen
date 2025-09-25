@@ -26,8 +26,10 @@ export default function Generate() {
   const [customPrompt, setCustomPrompt] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [isGenerating, setIsGenerating] = useState(false);
   const userCredits = 15;
   const { toast } = useToast();
+
   const {
     searchQuery,
     activeCategories,
@@ -94,20 +96,21 @@ export default function Generate() {
   
   const handlePhotoUpload = async (file: File) => {
     if (!selectedTemplate) return;
-    
+
     if (file.size > 10 * 1024 * 1024) {
       toast({
         title: "Arquivo muito grande",
-        description: "Por favor, envie uma imagem menor que 10MB.",
+        description: "Por favor, use um arquivo de até 10MB",
         variant: "destructive",
       });
       return;
     }
-    
+
     setUserPhoto(file);
     setStep('generating');
     setError(null);
     setGeneratedImageUrl(null);
+    setIsGenerating(true);
     
     try {
       const result = await imageGenerationService.generateWithTemplate({
@@ -118,17 +121,16 @@ export default function Generate() {
       if (result.success && result.imageUrl) {
         setGeneratedImageUrl(result.imageUrl);
         setStep('result');
-
         toast({
-          title: "Imagem criada com sucesso!",
-          description: "Sua transformação profissional está pronta.",
+          title: "Imagem gerada com sucesso!",
+          description: "Sua imagem profissional está pronta",
         });
       } else {
         setError(result.error || 'Erro ao gerar imagem profissional');
         setStep('upload');
         toast({
           title: "Erro na geração",
-          description: result.error || 'Erro ao gerar imagem profissional',
+          description: result.error || 'Não foi possível gerar a imagem',
           variant: "destructive",
         });
       }
@@ -137,10 +139,12 @@ export default function Generate() {
       setError(errorMessage);
       setStep('upload');
       toast({
-        title: "Erro na geração",
-        description: errorMessage,
+        title: "Erro inesperado",
+        description: "Tente novamente em alguns instantes",
         variant: "destructive",
       });
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -246,10 +250,10 @@ export default function Generate() {
                     variant={activeCategories.includes(categorySlug) ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleCategoryToggle(categorySlug)}
-                    className={`flex-shrink-0 ${
+                    className={`flex-shrink-0 transition-all duration-200 hover:scale-105 active:scale-95 ${
                       activeCategories.includes(categorySlug)
-                        ? 'bg-gradient-primary text-white border-0'
-                        : 'border-border/50'
+                        ? 'bg-gradient-primary text-white border-0 shadow-button'
+                        : 'border-border/50 hover:border-primary/50 hover:text-primary'
                     }`}
                   >
                     {category.title}
@@ -290,23 +294,25 @@ export default function Generate() {
             {/* Empty State */}
             {filteredCategories.length === 0 && (
               <div className="text-center py-16">
-                <div className="w-20 h-20 bg-white/5 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Filter className="h-8 w-8 text-white/50" />
+                <div className="w-20 h-20 bg-muted/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Filter className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">
                   Nenhum template encontrado
                 </h3>
-                <p className="text-muted-foreground mb-4">Tente fazer uma busca diferente.</p>
+                <p className="text-muted-foreground mb-4">
+                  Tente fazer uma busca diferente.
+                </p>
                 <Button
                   variant="outline"
                   onClick={() => {
                     clearAllFilters();
                     toast({
-                      title: "Filtros removidos",
-                      description: "Mostrando todos os templates novamente.",
+                      title: "Filtros removidos!",
+                      description: "Todos os templates estão disponíveis novamente",
                     });
                   }}
-                  className="border-border/50 text-foreground hover:bg-card/50"
+                  className="border-border text-foreground hover:bg-accent"
                 >
                   Mostrar todos
                 </Button>
@@ -318,47 +324,59 @@ export default function Generate() {
 
       {/* Upload Section */}
       {step === 'upload' && selectedTemplate && (
-        <section className="px-4">
-          {/* Selected Template Preview */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 rounded-2xl mb-6">
-            <div className="flex items-center space-x-4">
-              <img
-                src={getTemplatePlaceholder(selectedTemplate.id, selectedTemplate.title)}
-                alt={selectedTemplate.title}
-                className="w-16 h-16 rounded-xl object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="font-semibold text-white text-lg">{selectedTemplate.title}</h3>
-                <p className="text-white/70 text-sm mb-2">{selectedTemplate.description}</p>
-                <button
-                  onClick={() => setStep('template')}
-                  className="flex items-center text-purple-300 hover:text-white transition-colors text-sm"
-                >
-                  <ArrowLeft className="mr-1 h-3 w-3" />
-                  Trocar template
-                </button>
+        <section className="px-4 space-y-6">
+          {/* Selected Template Preview - Compact */}
+          <div className="bg-card/30 backdrop-blur-sm border border-border/30 p-3 rounded-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <img
+                  src={getTemplatePlaceholder(selectedTemplate.id, selectedTemplate.title)}
+                  alt={selectedTemplate.title}
+                  className="w-10 h-10 rounded-lg object-cover"
+                />
+                <div>
+                  <h3 className="font-medium text-foreground text-sm">{selectedTemplate.title}</h3>
+                  <p className="text-muted-foreground text-xs">Template selecionado</p>
+                </div>
               </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setStep('template')}
+                className="text-muted-foreground hover:text-foreground px-2 py-1"
+              >
+                <ArrowLeft className="mr-1 h-3 w-3" />
+                Alterar
+              </Button>
             </div>
           </div>
 
-          {/* Upload Zone */}
-          <UploadZone
-            onFileSelect={handlePhotoUpload}
-            acceptedFormats={['image/jpeg', 'image/png', 'image/webp']}
-            maxSize={10}
-            className="mb-6"
-          />
+          {/* Upload Section */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-foreground mb-2">Envie sua foto</h2>
+              <p className="text-muted-foreground text-sm">
+                Sua foto será transformada usando o template selecionado
+              </p>
+            </div>
+
+            <UploadZone
+              onFileSelect={handlePhotoUpload}
+              acceptedFormats={['image/jpeg', 'image/png', 'image/webp']}
+              maxSize={10}
+            />
+          </div>
 
           {/* Error Display */}
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+            <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-xl">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center mt-0.5">
-                  <AlertCircle className="h-5 w-5 text-red-400" />
+                <div className="w-8 h-8 bg-destructive/20 rounded-lg flex items-center justify-center mt-0.5">
+                  <AlertCircle className="h-4 w-4 text-destructive" />
                 </div>
                 <div>
-                  <p className="text-red-400 font-semibold">Erro na geração</p>
-                  <p className="text-white/60 text-sm mt-1">{error}</p>
+                  <p className="text-destructive font-medium">Erro na geração</p>
+                  <p className="text-muted-foreground text-sm mt-1">{error}</p>
                 </div>
               </div>
             </div>
@@ -369,50 +387,22 @@ export default function Generate() {
       {/* Generating Section */}
       {step === 'generating' && selectedTemplate && (
         <section className="px-4">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-card border border-border rounded-2xl p-8 text-center">
             <div className="space-y-6">
               {/* Simple Loader */}
               <div className="flex items-center justify-center">
-                <div className="relative">
-                  <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Wand2 className="h-6 w-6 text-purple-400" />
-                  </div>
-                </div>
+                <div className="w-16 h-16 border-4 border-border/30 border-t-primary rounded-full animate-spin"></div>
               </div>
 
               {/* Status Text */}
               <div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  Processando imagem
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  Gerando imagem...
                 </h3>
-                <p className="text-white/70">
-                  Aplicando o estilo <span className="font-medium text-purple-300">{selectedTemplate.title}</span>
+                <p className="text-muted-foreground">
+                  Template: {selectedTemplate.title}
                 </p>
               </div>
-
-              {/* Simple Features List */}
-              <div className="space-y-2 text-white/60 text-sm">
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>Mantendo identidade única</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                  <span>Aplicando estilo profissional</span>
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                  <span>Processamento IA avançado</span>
-                </div>
-              </div>
-
-              {/* Simple Progress Bar */}
-              <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full w-3/4 transition-all duration-1000"></div>
-              </div>
-
-              <p className="text-white/50 text-sm">Aguarde alguns segundos...</p>
             </div>
           </div>
         </section>
@@ -421,31 +411,25 @@ export default function Generate() {
       {/* Result Section */}
       {step === 'result' && generatedImageUrl && selectedTemplate && (
         <section className="px-4">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
-            <div className="space-y-4">
-              {/* Result Header */}
+          <div className="bg-card border border-border rounded-2xl p-6">
+            <div className="space-y-6">
+              {/* Header */}
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-white mb-1 flex items-center justify-center gap-2">
-                  <Check className="h-5 w-5 text-green-400" />
-                  Imagem criada com sucesso
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  Imagem gerada com sucesso!
                 </h3>
-                <p className="text-white/70 text-sm">
-                  Estilo: {selectedTemplate.title}
+                <p className="text-muted-foreground">
+                  Template: {selectedTemplate.title}
                 </p>
               </div>
 
               {/* Generated Image */}
-              <div className="relative w-full rounded-xl overflow-hidden bg-black/20">
+              <div className="w-full rounded-xl overflow-hidden bg-muted/20">
                 <img
                   src={generatedImageUrl}
                   alt="Imagem profissional gerada"
                   className="w-full h-auto object-contain max-h-[400px] rounded-xl"
                 />
-
-                {/* Success indicator */}
-                <div className="absolute top-2 right-2 bg-green-500/80 backdrop-blur-sm rounded-full p-1.5">
-                  <Check className="h-3 w-3 text-white" />
-                </div>
               </div>
 
               {/* Actions */}
@@ -454,11 +438,12 @@ export default function Generate() {
                   onClick={() => {
                     downloadImage();
                     toast({
-                      title: "Download iniciado",
-                      description: "Sua imagem está sendo baixada.",
+                      title: "Download iniciado!",
+                      description: "Sua imagem está sendo salva",
                     });
                   }}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  size="lg"
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Baixar
@@ -468,22 +453,23 @@ export default function Generate() {
                   onClick={() => {
                     resetFlow();
                     toast({
-                      title: "Novo template",
-                      description: "Escolha outro template para criar uma nova imagem.",
+                      title: "Nova geração iniciada",
+                      description: "Escolha outro template",
                     });
                   }}
-                  className="border-white/20 text-white hover:bg-white/5"
+                  className="border-border text-foreground hover:bg-accent"
+                  size="lg"
                 >
                   Criar Nova
                 </Button>
               </div>
 
-              <div className="text-center pt-2">
+              <div className="text-center pt-4">
                 <Link to="/gallery">
-                  <Button variant="ghost" className="text-purple-300 hover:text-white text-sm">
-                    <Camera className="mr-1 h-3 w-3" />
+                  <Button variant="ghost" className="text-muted-foreground hover:text-primary">
+                    <Camera className="mr-2 h-4 w-4" />
                     Ver na Galeria
-                    <ArrowRight className="ml-1 h-3 w-3" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>

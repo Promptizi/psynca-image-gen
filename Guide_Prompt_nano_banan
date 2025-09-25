@@ -1,0 +1,115 @@
+Guia Prático e Avançado para Prompts no NanoBanana do Google Gemini 2.5 Flash Image
+Este guia em markdown detalhado traz as melhores práticas, estruturas eficientes e exemplos de prompts para extrair o máximo do modelo NanoBanana, tanto na criação quanto na edição de imagens (incluindo fusão multi-imagem), editando detalhes e estilizando cenas. É indicado para quem deseja criar resultados profissionais e consistentes com máxima eficiência.
+
+🚀 Introdução
+O NanoBanana (Gemini 2.5 Flash Image) é a IA mais avançada para edição, geração e fusão de imagens, capaz de realizar modificações precisas, manter detalhes de personagens, transferir estilos, criar composições complexas e trabalhar com múltiplas imagens ou etapas. O segredo para resultados superiores está na construção estratégica dos prompts.
+
+📚 Estrutura Ideal do Prompt
+Os melhores prompts no NanoBanana são descritivos, contextuais e organizados em seções. Recomenda-se uma lógica inspirada em briefings de direção de arte — adaptável a linguagem livre ou formato JSON:
+
+json
+{
+  "core_structure": "Descrição central da cena e personagem",
+  "style_definition": "Estilo artístico ou visual (ex: cyberpunk, realista)",
+  "technical_specifications": "Ângulo, lente, resolução e iluminação",
+  "material_properties": "Texturas, superfícies, detalhes físicos",
+  "environmental_factors": "Cenário, fundo, clima, estação",
+  "composition_controls": "Posição, enquadramento, negatividade",
+  "quality_keywords": "Termos que reforçam padrões de qualidade ou fidelidade"
+}
+Prompt natural equivalente:
+
+Crie uma imagem fotorrealista de um produto tecnológico em uma mesa de madeira clara, com iluminação difusa vinda da janela ao fundo, estilo minimalista, ângulo levemente superior, resolução alta, textura de metal escovado, mantendo proporções originais. Adicione fundo desfocado e detalhe de sombra suave.
+
+✨ Melhorias Práticas
+1. Seja específico e detalhista
+Descreva sujeito, ação, ambiente, estilo e iluminação.
+
+Inclua detalhes técnicos, como lentes (“85mm”), tipo de luz (“golden hour”, “difusa”) ou proporções (“vertical”, “wide”).
+
+2. Iterativo: refine por etapas
+Para cenas complexas, edite variáveis uma de cada vez: “Primeiro, mude o fundo. Depois, troque a roupa”.
+
+Use prompts sequenciais ou multi-turn para construir cenas complexas e composições multi-imagem.
+
+3. Prompts para edição
+Prefira ação direta: “Troque o fundo por um escritório moderno”, “Remova manchas da camisa”, “Adicione luz suave nas bordas”.
+
+Para não alterar certas áreas: “Mantenha o rosto intocado”.
+
+4. Multi-imagem e fusão
+Combine referências: “Coloque o personagem da foto 1 na ambientação da foto 2, mantendo traços, luz e estilo consistentes”.
+
+Para transferir estilo: “Aplique o estilo artístico da imagem X à imagem Y”.
+
+5. Transferência de estilo e variações
+“Gere variações do mesmo personagem em estilos manga, aquarela, fotográfico”.
+
+“Transforme esta cena em um pôr do sol chuvoso/estilo cyberpunk”.
+
+6. Comandos para sequência e consistência
+“Troque a expressão facial para sorriso mantendo proporções originais”.
+
+“Gere uma série de imagens com o mesmo personagem em diferentes cenários”.
+
+🖼️ Exemplos Avançados de Prompt
+Criação de Imagem Única
+text
+Crie um retrato fotorrealista de uma jovem empresária, sorrindo, sentada em uma cafeteria iluminada por luz natural, estilo Canon 5D, textura de pele suave, tons quentes, fundo desfocado.
+Edição Localizada
+text
+Na foto enviada, troque o casaco azul por um blazer preto mantendo o rosto e o fundo intocados. Fotorealismo, sombra natural, alta resolução.
+Multi-imagem/Fusão
+text
+Combine a imagem do personagem 1 com o cenário da foto 2. Mantenha o estilo corporativo do personagem, luz suave e preservação dos traços faciais. O produto deve aparecer sobre a mesa do escritório do cenário.
+Transferência de Estilo
+text
+Transforme a imagem enviada em pintura estilo aquarela, mantendo a posição e proporção do personagem. Braços e mãos visíveis, fundo em tons pastel.
+🏆 Checklist de Eficiência
+ Contexto, objetivo e detalhes definidos
+
+ Sequência clara para múltiplos comandos
+
+ Referências visuais enviadas sempre que possível
+
+ Uso de termos técnicos de fotografia (ângulo, lente, luz)
+
+ Uso de restrições para manter consistência
+
+ Prompt revisado e ajustado após o resultado inicial
+
+⚡ Dicas Avançadas
+Utilize linguagem natural clara e positiva (“insira mesa de madeira clara” ao invés de “remova mesa escura”).
+
+Para multi-imagem, nomeie claramente as imagens e comandos.
+
+Descreva limitações do que não deseja alterar (“mantenha traços faciais originais”, “não modifique as mãos”).
+
+Crie “sistemas de prompt” (principal, complementar, aprofundamento) para refinamento progressivo.
+
+Para transferir estilo, descreva tanto o que absorver da referência quanto o que preservar da imagem original.
+
+📋 Estrutura Markdown Recomendada
+text
+# Guia de Prompts para NanoBanana
+
+## Estrutura Recomendada
+- [core_structure]: ...
+- [style_definition]: ...
+- [technical_specifications]: ...
+- [material_properties]: ...
+- [environmental_factors]: ...
+- [composition_controls]: ...
+- [quality_keywords]: ...
+
+## Exemplo de Prompt Completo
+...
+🌟 Exemplos de Prompts Prontos
+“Troque o fundo desta foto para um cenário urbano noturno com luzes de neon. Mantenha proporções, textura de pele e posição do personagem.”
+
+“Aplique o estilo artístico da imagem 2 à foto 1. Preserve identidade facial e tons de pele.”
+
+“Gere três variações do mesmo personagem: sentado ao ar livre, em um escritório, e em uma cafeteria. Consistência em traços faciais e iluminação leve.”
+
+“Adicione texto ‘Promoção Especial’ na área superior, em fonte branca, sem modificar outros elementos.”
+
