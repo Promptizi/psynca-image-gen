@@ -11,7 +11,9 @@ import Profile from "./pages/Profile";
 import ThumbnailGenerator from "./pages/ThumbnailGenerator";
 import CustomThumbnailGenerator from "./pages/CustomThumbnailGenerator";
 import ThumbnailTester from "./pages/ThumbnailTester";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,7 @@ const App = () => (
           <Route path="/thumbnail-generator" element={<ThumbnailGenerator />} />
           <Route path="/custom-thumbnails" element={<CustomThumbnailGenerator />} />
           <Route path="/thumbnail-tester" element={<ThumbnailTester />} />
+          <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
