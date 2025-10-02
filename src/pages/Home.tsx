@@ -6,9 +6,10 @@ import { ArrowRight, Wand2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useMemo } from "react";
 import { clearThumbnailCache, templateCategories } from "@/data/templateCategories";
+import { useCredits } from "@/hooks/useCredits";
 
 export default function Home() {
-  const userCredits = 15;
+  const { credits: userCredits } = useCredits();
 
   // Limpar cache de thumbnails para garantir que as thumbnails geradas sejam exibidas
   useEffect(() => {

@@ -4,9 +4,12 @@ import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
 import { CreditCard, QrCode, ArrowLeft, Zap, Star, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCredits } from "@/hooks/useCredits";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Credits() {
-  const userCredits = 15;
+  const { credits: userCredits } = useCredits();
+  const { toast } = useToast();
 
   const purchaseOptions = [
     {
@@ -39,7 +42,11 @@ export default function Credits() {
   ];
 
   const handlePurchase = (packageId: string) => {
-    // Here we would integrate with Stripe
+    // TODO: Integrate with payment gateway (Stripe/Pagar.me)
+    toast({
+      title: "Funcionalidade em desenvolvimento",
+      description: "A integração de pagamento será implementada em breve.",
+    });
     console.log(`Purchasing package: ${packageId}`);
   };
 

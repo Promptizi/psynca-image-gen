@@ -3083,6 +3083,168 @@ export type Database = {
         }
         Relationships: []
       }
+      studio_generated_images: {
+        Row: {
+          created_at: string | null
+          generation_params: Json | null
+          id: string
+          image_url: string
+          prompt: string
+          template_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          generation_params?: Json | null
+          id?: string
+          image_url: string
+          prompt: string
+          template_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          generation_params?: Json | null
+          id?: string
+          image_url?: string
+          prompt?: string
+          template_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_generated_images_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "studio_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "studio_generated_images_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      studio_generation_history: {
+        Row: {
+          action: string
+          created_at: string | null
+          credits_used: number | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          credits_used?: number | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          credits_used?: number | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_generation_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      studio_templates: {
+        Row: {
+          active: boolean | null
+          category: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          prompt: string
+          tags: string[] | null
+          thumbnail: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          prompt: string
+          tags?: string[] | null
+          thumbnail?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          prompt?: string
+          tags?: string[] | null
+          thumbnail?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_templates_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      studio_user_credits: {
+        Row: {
+          created_at: string | null
+          credits: number | null
+          id: string
+          last_refill: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credits?: number | null
+          id?: string
+          last_refill?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credits?: number | null
+          id?: string
+          last_refill?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "studio_user_credits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       cancellation_stats: {

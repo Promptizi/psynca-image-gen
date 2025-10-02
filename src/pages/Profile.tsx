@@ -1,22 +1,98 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
-import { User, Settings, HelpCircle, LogOut, ArrowLeft, BarChart3, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { User, Settings, HelpCircle, LogOut, ArrowLeft, BarChart3, Calendar, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { formatDate, getInitials } from "@/lib/auth-helpers";
+import { useAuth } from "@/hooks/useAuth";
+import { useCredits } from "@/hooks/useCredits";
 
 export default function Profile() {
-  const userCredits = 15;
-  const userStats = {
-    totalGenerated: 127,
-    joinDate: "Janeiro 2024"
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<any>(null);
+  const [imageCount, setImageCount] = useState(0);
+  const { user, signOut } = useAuth();
+  const { credits: userCredits } = useCredits();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Load user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from("studio_user_profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw profileError;
+      }
+
+      setProfile(profileData);
+
+      // Load image count
+      const { count } = await supabase
+        .from("studio_generated_images")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      setImageCount(count || 0);
+    } catch (error) {
+      console.error("Error loading user data:", error);
+      toast({
+        title: "Erro ao carregar dados",
+        description: "Não foi possível carregar suas informações.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (error: any) {
+      console.error("Logout error:", error);
+      toast({
+        title: "Erro ao sair",
+        description: "Não foi possível fazer logout.",
+        variant: "destructive",
+      });
+    }
   };
 
   const menuItems = [
-    { icon: Settings, label: "Configurações", action: () => {} },
-    { icon: HelpCircle, label: "Ajuda e Suporte", action: () => {} },
-    { icon: LogOut, label: "Sair", action: () => {}, danger: true }
+    { icon: Settings, label: "Configurações", action: () => navigate("/settings") },
+    { icon: HelpCircle, label: "Ajuda e Suporte", action: () => navigate("/support") },
+    { icon: LogOut, label: "Sair", action: handleLogout, danger: true }
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Carregando perfil...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -38,14 +114,33 @@ export default function Profile() {
         <Card className="p-6 bg-gradient-card border-border/50">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center">
-              <User className="h-8 w-8 text-white" />
+              {profile?.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={profile.full_name || user?.email}
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-bold text-white">
+                  {getInitials(profile?.full_name || user?.email || "U")}
+                </span>
+              )}
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold">Dr. Ana Silva</h2>
-              <p className="text-muted-foreground">Profissional de Saúde Mental</p>
+              <h2 className="text-xl font-bold">
+                {profile?.full_name || user?.email?.split("@")[0] || "Usuário"}
+              </h2>
+              <p className="text-muted-foreground">
+                {profile?.bio || "Profissional de Saúde Mental"}
+              </p>
+              {profile?.role === "admin" && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary mt-1">
+                  Administrador
+                </span>
+              )}
             </div>
           </div>
-          
+
           <div className="flex justify-center">
             <CreditDisplay credits={userCredits} className="bg-card/50" />
           </div>
@@ -58,13 +153,15 @@ export default function Profile() {
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-4 bg-card/50 border-border/50 text-center">
             <BarChart3 className="h-6 w-6 text-primary mx-auto mb-2" />
-            <div className="text-2xl font-bold">{userStats.totalGenerated}</div>
+            <div className="text-2xl font-bold">{imageCount}</div>
             <div className="text-xs text-muted-foreground">Imagens Criadas</div>
           </Card>
-          
+
           <Card className="p-4 bg-card/50 border-border/50 text-center">
             <Calendar className="h-6 w-6 text-accent mx-auto mb-2" />
-            <div className="text-sm font-bold">{userStats.joinDate}</div>
+            <div className="text-sm font-bold">
+              {formatDate(profile?.created_at || user?.created_at || new Date())}
+            </div>
             <div className="text-xs text-muted-foreground">Membro desde</div>
           </Card>
         </div>

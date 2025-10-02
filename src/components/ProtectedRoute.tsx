@@ -24,13 +24,21 @@ export function ProtectedRoute({ children, adminOnly = false }: ProtectedRoutePr
       if (session?.user) {
         setIsAuthenticated(true);
 
-        // Check if user is admin
-        const userMetadata = session.user.user_metadata;
-        const isUserAdmin = userMetadata?.role === 'admin' ||
-                           session.user.email?.includes('@admin.') ||
-                           session.user.email === 'admin@psynka.com'; // Add your admin emails here
+        // Check if user is admin from database
+        const { data: profileData, error: profileError } = await supabase
+          .from("studio_user_profiles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .single();
 
-        setIsAdmin(isUserAdmin);
+        if (!profileError && profileData) {
+          setIsAdmin(profileData.role === 'admin');
+        } else {
+          // Fallback check for admin email
+          const isUserAdmin = session.user.email === 'admin@psynka.com' ||
+                             session.user.email?.includes('@admin.');
+          setIsAdmin(isUserAdmin);
+        }
       } else {
         setIsAuthenticated(false);
         setIsAdmin(false);
@@ -56,7 +64,7 @@ export function ProtectedRoute({ children, adminOnly = false }: ProtectedRoutePr
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
 
   if (adminOnly && !isAdmin) {

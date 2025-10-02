@@ -101,7 +101,7 @@ export default function Admin() {
     setLoading(true);
     try {
       const { data, error } = await supabase
-        .from('templates')
+        .from('studio_templates')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -170,7 +170,7 @@ export default function Admin() {
 
     try {
       const { error } = await supabase
-        .from('templates')
+        .from('studio_templates')
         .delete()
         .eq('id', id);
 
@@ -201,13 +201,13 @@ export default function Admin() {
         const fileExt = thumbnailFile.name.split('.').pop();
         const fileName = `${Math.random()}.${fileExt}`;
         const { error: uploadError, data } = await supabase.storage
-          .from('template-thumbnails')
+          .from('studio-thumbnails')
           .upload(fileName, thumbnailFile);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from('template-thumbnails')
+          .from('studio-thumbnails')
           .getPublicUrl(fileName);
 
         thumbnailUrl = publicUrl;
@@ -220,11 +220,12 @@ export default function Admin() {
         thumbnail: thumbnailUrl,
         tags: formData.tags.split(',').map(tag => tag.trim()),
         active: formData.active,
+        ...(isEditing ? {} : { created_by: (await supabase.auth.getUser()).data.user?.id }),
       };
 
       if (isEditing && selectedTemplate) {
         const { error } = await supabase
-          .from('templates')
+          .from('studio_templates')
           .update(templateData)
           .eq('id', selectedTemplate.id);
 
@@ -236,7 +237,7 @@ export default function Admin() {
         });
       } else {
         const { error } = await supabase
-          .from('templates')
+          .from('studio_templates')
           .insert([templateData]);
 
         if (error) throw error;

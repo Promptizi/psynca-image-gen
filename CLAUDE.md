@@ -64,3 +64,11 @@ Uses Tailwind CSS with a comprehensive design system including:
 - **Vite**: Configured with React SWC plugin and development tagging
 
 The project appears to be a Lovable.dev generated application with Supabase backend integration for building an image generation platform.
+
+
+# IMPORTANTE
+- O banco de dados é o mesmo de um outro projeto maior, esse projeto é um projeto que faz parte desse projeto maior porem está sendo uasado o mesmo banco porque futuramente eles seram mais integrados. entao por Hipotese nenhuma pode sobrescrever as tabelas ouda dodos do do outro projeto.
+
+- Apenas a parte de Autenticação 
+
+-sempre colocar prfixo "Studio" antes das tabelas criadas para esse projeto

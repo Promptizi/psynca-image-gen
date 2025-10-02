@@ -13,6 +13,9 @@ import { imageGenerationService, ProfessionalTemplate } from "@/services/imageGe
 import { useToast } from "@/hooks/use-toast";
 import { templateCategories, getCategoryBySlug, getTemplateThumbnail, clearThumbnailCache, filterTemplates, TemplateFilters as FilterOptions } from "@/data/templateCategories";
 import { useTemplateSearch } from "@/hooks/useTemplateSearch";
+import { useAuth } from "@/hooks/useAuth";
+import { useCredits } from "@/hooks/useCredits";
+import { supabase } from "@/integrations/supabase/client";
 
 type GenerationStep = 'template' | 'upload' | 'generating' | 'result';
 
@@ -22,13 +25,15 @@ export default function Generate() {
   const [selectedTemplate, setSelectedTemplate] = useState<ProfessionalTemplate | null>(null);
   const [userPhoto, setUserPhoto] = useState<File | null>(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [generatedImageId, setGeneratedImageId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [customPrompt, setCustomPrompt] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isGenerating, setIsGenerating] = useState(false);
   const [advancedFilters, setAdvancedFilters] = useState<FilterOptions>({});
-  const userCredits = 15;
+  const { user } = useAuth();
+  const { credits: userCredits, useCredits: deductCredits, refreshCredits } = useCredits();
   const { toast } = useToast();
 
   const {
@@ -68,7 +73,7 @@ export default function Generate() {
     if (templateId && prompt) {
       setCustomPrompt(prompt);
       setStep('upload');
-      // Criar um template mock para o ID customizado
+      // Criar template dinâmico baseado nos parâmetros da URL
       setSelectedTemplate({
         id: templateId,
         title: templateId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
@@ -83,7 +88,7 @@ export default function Generate() {
   // Combine existing filters with advanced filters
   const getFilteredCategories = () => {
     // Start with categories filtered by search and category selection
-    let categories = filteredCategories;
+    const categories = filteredCategories;
 
     // Apply advanced filters to each category's templates
     return categories.map(category => ({
@@ -122,8 +127,70 @@ export default function Generate() {
     setStep('upload');
   };
   
+  const saveImageToDatabase = async (imageUrl: string, templateId: string, prompt: string) => {
+    if (!user) {
+      throw new Error('Usuário não autenticado');
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('studio_generated_images')
+        .insert({
+          user_id: user.id,
+          image_url: imageUrl,
+          prompt: prompt,
+          template_id: templateId,
+          generation_params: {
+            template_title: selectedTemplate?.title,
+            timestamp: new Date().toISOString()
+          }
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data.id;
+    } catch (error: any) {
+      console.error('Error saving image to database:', error);
+      throw new Error('Falha ao salvar imagem no banco de dados');
+    }
+  };
+
+  const recordGenerationHistory = async (imageId: string) => {
+    if (!user) return;
+
+    try {
+      await supabase
+        .from('studio_generation_history')
+        .insert({
+          user_id: user.id,
+          action: 'image_generation',
+          credits_used: 1,
+          metadata: {
+            image_id: imageId,
+            template_id: selectedTemplate?.id,
+            template_title: selectedTemplate?.title,
+            timestamp: new Date().toISOString()
+          }
+        });
+    } catch (error: any) {
+      console.error('Error recording generation history:', error);
+      // Não lançar erro aqui para não bloquear o fluxo principal
+    }
+  };
+
   const handlePhotoUpload = async (file: File) => {
     if (!selectedTemplate) return;
+
+    // Verificar créditos antes de gerar
+    if (userCredits < 1) {
+      toast({
+        title: "Créditos insuficientes",
+        description: "Você precisa de créditos para gerar imagens. Adquira mais créditos.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (file.size > 10 * 1024 * 1024) {
       toast({
@@ -138,17 +205,38 @@ export default function Generate() {
     setStep('generating');
     setError(null);
     setGeneratedImageUrl(null);
+    setGeneratedImageId(null);
     setIsGenerating(true);
-    
+
     try {
+      // Gerar imagem
       const result = await imageGenerationService.generateWithTemplate({
         userPhoto: file,
         template: selectedTemplate
       });
-      
+
       if (result.success && result.imageUrl) {
+        // Salvar no banco de dados
+        const imageId = await saveImageToDatabase(
+          result.imageUrl,
+          selectedTemplate.id,
+          selectedTemplate.prompt
+        );
+
+        // Descontar créditos
+        await deductCredits(1);
+
+        // Registrar histórico
+        await recordGenerationHistory(imageId);
+
+        // Atualizar estado
         setGeneratedImageUrl(result.imageUrl);
+        setGeneratedImageId(imageId);
         setStep('result');
+
+        // Refresh credits to show updated balance
+        await refreshCredits();
+
         toast({
           title: "Imagem gerada com sucesso!",
           description: "Sua imagem profissional está pronta",
@@ -168,7 +256,7 @@ export default function Generate() {
       setStep('upload');
       toast({
         title: "Erro inesperado",
-        description: "Tente novamente em alguns instantes",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

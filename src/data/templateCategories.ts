@@ -1,5 +1,6 @@
 // Sistema completo de templates para profissionais de saúde mental
-// Baseado em análise visual das referências com prompts otimizados NanoBanana
+// Prompts otimizados com base na documentação Gemini API para hiper-realismo e consistência
+// Utiliza técnicas avançadas de preservação de identidade facial e especificações técnicas profissionais
 // 36 templates organizados em 6 categorias com sistema de filtros
 
 export interface Template {
@@ -157,7 +158,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Headshot profissional masculino em ambiente corporativo",
-        prompt: "Transforme o homem da foto em psicólogo profissional confiante. Mantenha todas as características faciais e identidade originais intocadas. Sorriso caloroso e profissional, olhar direto e empático, blazer escuro ou camisa social de qualidade. Fundo neutro desfocado tons terrosos, iluminação natural suave estilo window light, lente retrato 85mm. Expressão acolhedora mas autoridade profissional, postura confiante, adequado para terapeuta ou conselheiro. Estilo fotorrealista seguindo tons das referências com paleta neutra e quente."
+        prompt: "Hyperrealistic professional photography, transform this man into professional psychologist specializing in clinical therapy while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this man as professional psychologist specializing in clinical therapy. Confident professional posture facing camera directly. Dark navy blazer over crisp white shirt, professional tie optional. Confident professional expression, warm empathetic smile, authoritative yet approachable. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "professional-headshot-female-formal",
@@ -167,7 +168,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Headshot profissional feminino elegante e confiante",
-        prompt: "Transforme a mulher da foto em psicóloga profissional elegante. Preserve completamente traços faciais e identidade original. Sorriso genuíno e acolhedor, olhar empático e confiante, blazer estruturado ou roupa social feminina em tons neutros. Mão apoiada elegantemente, postura corporal confiante. Fundo desfocado em tons beiges e cinzas claros, iluminação profissional suave golden hour. Lente 85mm retrato, estilo das referências com tons terrosos, adequada para terapeuta especializada."
+        prompt: "Hyperrealistic professional photography, transform this woman into professional psychologist specializing in family therapy while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as professional psychologist specializing in family therapy. Confident professional posture facing camera directly. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling. Confident professional expression, warm empathetic smile, authoritative yet approachable. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "linkedin-portrait-male-casual",
@@ -177,7 +178,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Retrato descontraído mas profissional para redes sociais",
-        prompt: "Crie retrato de psicólogo masculino em ambiente descontraído mas profissional. Mantenha identidade facial completa. Sorriso natural e acessível, camisa social sem gravata ou suéter de qualidade, ambiente de escritório moderno com plantas ao fundo. Iluminação natural difusa, tons quentes e terrosos das referências. Lente 85mm, profundidade de campo suave, expressão amigável e competente, adequado para LinkedIn de terapeuta."
+        prompt: "Hyperrealistic professional photography, transform this man into professional psychologist specializing in relationship counseling while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this man as professional psychologist specializing in relationship counseling. Seated in professional consultation pose, welcoming body language. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident. Modern therapeutic office environment. Therapy office with comfortable seating, plants, warm professional atmosphere. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "linkedin-portrait-female-casual",
@@ -187,7 +188,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Retrato feminino acessível com óculos e sorriso caloroso",
-        prompt: "Transforme a mulher em psicóloga acessível e calorosa. Preserve traços faciais originais. Óculos elegantes, sorriso genuíno, blusa ou suéter em tons neutros, colar discreto. Caderno ou material de trabalho nas mãos, ambiente de consultório acolhedor com sofás ao fundo desfocado. Iluminação natural suave, paleta de cores das referências, lente 85mm retrato. Expressão empática e profissional, adequada para terapeuta que trabalha com famílias."
+        prompt: "Hyperrealistic professional photography, transform this woman into professional psychologist specializing in child and adolescent therapy while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as professional psychologist specializing in child and adolescent therapy. Seated in professional consultation pose, welcoming body language. Professional casual blouse or elegant sweater, accessible professional styling, elegant glasses, discrete necklace. Warm genuine smile, approachable empathetic expression, naturally confident. Modern therapeutic office environment. Therapy office with comfortable seating, plants, warm professional atmosphere. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "executive-portrait-female",
@@ -197,7 +198,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Retrato formal com iluminação dramática e elegante",
-        prompt: "Crie retrato de psicóloga especialista sênior em ambiente de estúdio elegante. Mantenha características faciais originais. Blazer bege ou neutro de alta qualidade, postura autoritativa mas acessível, olhar direto e confiante. Fundo escuro desfocado com iluminação lateral dramática, estilo das referências com tons terrosos. Lente 85mm, alta qualidade, expressão séria mas empática, adequada para diretora clínica ou supervisora de terapeutas."
+        prompt: "Hyperrealistic professional photography, transform this woman into senior clinical psychologist and supervisor while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as senior clinical psychologist and supervisor. Confident professional posture facing camera directly. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, executive presence. Confident professional expression, warm empathetic smile, authoritative yet approachable, serious but empathetic demeanor. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh with dramatic lighting accents. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, dramatic side lighting. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "friendly-headshot-male",
@@ -207,13 +208,13 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Retrato caloroso com luz natural e expressão acolhedora",
-        prompt: "Transforme o homem em psicólogo acolhedor em ambiente com luz natural dourada. Preserve identidade facial original. Sorriso caloroso e genuíno, camisa clara, postura relaxada mas profissional, luz natural golden hour suave. Ambiente moderno ao fundo desfocado, tons quentes das referências. Lente 85mm, profundidade controlada, expressão empática e confiável, adequado para terapeuta especializado em relacionamentos."
+        prompt: "Hyperrealistic professional photography, transform this man into professional psychologist specializing in couples and relationship therapy while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this man as professional psychologist specializing in couples and relationship therapy. Relaxed professional posture in home environment. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       }
     ]
   },
   {
     title: "Consultório & Terapia",
-    description: "Ambientes terapêuticos acolhedores para sessões e consultas",
+    description: "Ambientes terapêuticos hiper-realísticos para sessões e consultas com consistência facial",
     color: "#10B981",
     icon: "Heart",
     templates: [
@@ -225,7 +226,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "office",
         description: "Terapeuta em videochamada com expressão acolhedora",
-        prompt: "Transforme a mulher em terapeuta durante videochamada terapêutica. Preserve identidade facial original. Gesticulando de forma acolhedora, blazer profissional sobre blusa neutra, sorriso empático e caloroso. Ambiente de consultório moderno com plantas e elementos naturais ao fundo, iluminação natural suave de janela. Lente 85mm, tons terrosos das referências, expressão que transmite segurança e acolhimento, adequada para psicóloga em atendimento online."
+        prompt: "Hyperrealistic professional photography, transform this woman into professional psychologist specializing in online therapy sessions while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as professional psychologist specializing in online therapy sessions. Positioned for video call, looking directly at camera with engaging presence. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling. Confident professional expression, warm empathetic smile, authoritative yet approachable. Video call setup optimized for teletherapy. Professional video call background, clean and organized. Shot with Canon EOS R5 simulating high-quality webcam perspective, 50mm equivalent perspective for natural video call framing. Ring light with soft window fill, video-optimized illumination. 8K hyperrealistic photography simulating high-end video call quality. Digital-native color grading, screen-optimized processing, authentic video feel."
       },
       {
         id: "consultation-room-female",
@@ -235,7 +236,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "office",
         description: "Psicóloga lendo em ambiente com plantas e atmosfera calma",
-        prompt: "Crie psicóloga em momento de estudo em consultório aconchegante. Mantenha características faciais originais. Lendo caderno ou livro de psicologia, vestido verde ou roupa neutra confortável, postura relaxada em sofá com almofadas. Consultório com plantas abundantes, velas, iluminação golden hour natural, ambiente que transmite calma e acolhimento. Lente 85mm, paleta terrosa das referências, expressão serena e profissional."
+        prompt: "Hyperrealistic professional photography, transform this woman into professional psychologist in contemplative study moment while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as professional psychologist in contemplative study moment. Relaxed professional posture in home environment, reading psychology journal or book. Professional casual blouse or elegant sweater, accessible professional styling. Warm genuine smile, approachable empathetic expression, naturally confident, serene and focused expression. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting, abundant plants, candles, cozy therapeutic atmosphere. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       },
       {
         id: "group-therapy-facilitator",
@@ -245,7 +246,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "office",
         description: "Profissional em ambiente preparado para sessões em grupo",
-        prompt: "Transforme a pessoa em facilitador de terapia de grupo em ambiente acolhedor. Preserve traços faciais originais. Roupa profissional acolhedora, expressão empática e inclusiva, postura que transmite liderança gentil. Sala preparada para grupo com cadeiras em círculo, plantas, iluminação natural difusa, elementos que promovem união e segurança emocional. Estilo das referências com tons quentes, lente 85mm retrato."
+        prompt: "Hyperrealistic professional photography, transform this person into professional group therapy facilitator while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as professional group therapy facilitator. Seated in professional consultation pose, welcoming body language. Creative professional attire that reflects innovative approach while maintaining professionalism. Inspiring confident expression, creative energy, innovative professional presence. Modern therapeutic office environment. Therapy office with comfortable seating, plants, warm professional atmosphere, chairs arranged in circle, elements promoting unity and emotional safety. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "clinical-assessment",
@@ -255,7 +256,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "office",
         description: "Psicólogo em ambiente clínico organizado",
-        prompt: "Crie psicólogo em ambiente de avaliação clínica organizado e profissional. Mantenha identidade facial. Jaleco ou roupa profissional clínica, materiais de avaliação psicológica, testes e questionários organizados. Ambiente limpo e profissional com diplomas, certificações, mesa de trabalho estruturada. Iluminação profissional clara, expressão competente e confiável, lente 85mm, tons neutros das referências."
+        prompt: "Hyperrealistic professional photography, transform this person into clinical psychologist conducting psychological assessment while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as clinical psychologist conducting psychological assessment. Seated in professional consultation pose, welcoming body language. Professional clinical attire or lab coat, organized assessment materials. Confident professional expression, warm empathetic smile, authoritative yet approachable, competent and reliable demeanor. Modern therapeutic office environment. Clean professional office with diplomas, certifications, structured work desk, psychological assessment materials organized. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "therapeutic-conversation",
@@ -265,7 +266,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "office",
         description: "Momento de diálogo empático com paciente",
-        prompt: "Transforme a pessoa em terapeuta durante conversa acolhedora com paciente. Preserve características faciais. Postura de escuta ativa, mãos em posição receptiva, expressão empática e presente. Consultório com poltronas confortáveis, ambiente que transmite segurança psicológica, plantas e elementos naturais. Iluminação suave natural, tons das referências, lente 85mm, transmitindo presença terapêutica e conexão humana."
+        prompt: "Hyperrealistic professional photography, transform this person into therapist during empathetic therapeutic conversation while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as therapist during empathetic therapeutic conversation. Seated in professional consultation pose, welcoming body language, active listening posture, hands in receptive position. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident, present and empathetic. Modern therapeutic office environment. Therapy office with comfortable seating, plants, warm professional atmosphere, comfortable armchairs, psychological safety elements. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "family-therapy-setting",
@@ -275,13 +276,13 @@ export const templateCategories: TemplateCategory[] = [
         style: "clinical",
         scenario: "home",
         description: "Especialista em terapia familiar em ambiente acolhedor",
-        prompt: "Crie especialista em terapia familiar em ambiente caloroso e acolhedor. Mantenha identidade facial original. Roupa profissional mas calorosa, expressão maternal/paternal, postura que convida à confiança familiar. Ambiente decorado para famílias com elementos naturais, cores suaves, espaço amplo e confortável. Iluminação natural golden hour, estilo das referências com paleta terrosa, lente 85mm, transmitindo segurança familiar."
+        prompt: "Hyperrealistic professional photography, transform this person into family therapy specialist while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as family therapy specialist. Relaxed professional posture in home environment. Professional but warm attire, maternal/paternal expression. Warm genuine smile, approachable empathetic expression, naturally confident, family-trusting demeanor. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting, family-decorated space with natural elements, soft colors, spacious and comfortable. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       }
     ]
   },
   {
     title: "Home Office & Teleconsulta",
-    description: "Profissionais em atendimento online e escritório doméstico",
+    description: "Profissionais hiper-realísticos em atendimento online com preservação de identidade",
     color: "#8B5CF6",
     icon: "Monitor",
     templates: [
@@ -293,7 +294,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "home",
         description: "Múltiplas poses de terapeuta em home office bem organizado",
-        prompt: "Transforme a mulher em terapeuta profissional em home office organizado. Preserve identidade facial. Blazer marrom sobre blusa clara, poses variadas: trabalhando no laptop, tomando café, fazendo anotações. Escritório em casa bem estruturado com mesa de madeira, plantas, caneca laranja, materiais de trabalho organizados. Iluminação natural de janela, tons terrosos das referências, múltiplas poses mostrando rotina profissional, lente 85mm."
+        prompt: "Hyperrealistic professional photography, transform this woman into professional therapist in organized home office while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as professional therapist in organized home office. Relaxed professional posture in home environment, multiple poses: working on laptop, taking coffee, making notes. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling. Warm genuine smile, approachable empathetic expression, naturally confident. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting, wooden desk, plants, orange mug, organized work materials. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       },
       {
         id: "video-therapy-session",
@@ -303,7 +304,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "home",
         description: "Terapeuta em videochamada com setup profissional",
-        prompt: "Crie terapeuta em videochamada profissional bem configurada. Mantenha características faciais originais. Falando diretamente com a câmera, gesticulação acolhedora, roupa profissional casual, expressão empática durante atendimento online. Setup com boa iluminação, fundo organizado, ambiente doméstico profissional. Iluminação técnica adequada para vídeo, tons das referências, lente 85mm, transmitindo presença terapêutica virtual."
+        prompt: "Hyperrealistic professional photography, transform this person into therapist in professional video call session while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as therapist in professional video call session. Positioned for video call, looking directly at camera with engaging presence, welcoming gesticulation. Professional casual blouse or elegant sweater, accessible professional styling. Warm genuine smile, approachable empathetic expression, naturally confident. Video call setup optimized for teletherapy. Professional video call background, clean and organized, professional domestic environment. Shot with Canon EOS R5 simulating high-quality webcam perspective, 50mm equivalent perspective for natural video call framing. Ring light with soft window fill, video-optimized illumination. 8K hyperrealistic photography simulating high-end video call quality. Digital-native color grading, screen-optimized processing, authentic video feel."
       },
       {
         id: "online-counseling-male",
@@ -313,7 +314,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "home",
         description: "Psicólogo masculino em ambiente moderno de teleconsulta",
-        prompt: "Transforme o homem em psicólogo especializado em atendimento online. Preserve identidade facial. Camisa social casual ou suéter, ambiente moderno e tecnológico, setup profissional para teleconsultas. Expressão confiante mas acessível, postura profissional adaptada ao digital. Home office moderno com elementos tech, iluminação adequada para vídeo, tons das referências, lente 85mm, adequado para especialista em psicologia digital."
+        prompt: "Hyperrealistic professional photography, transform this man into psychologist specialized in online consultations while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this man as psychologist specialized in online consultations. Positioned for video call, looking directly at camera with engaging presence. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident, confident but accessible. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting, modern tech elements, video-adequate setup. Shot with Canon EOS R5 simulating high-quality webcam perspective, 50mm equivalent perspective for natural video call framing. Ring light with soft window fill, video-optimized illumination. 8K hyperrealistic photography simulating high-end video call quality. Digital-native color grading, screen-optimized processing, authentic video feel."
       },
       {
         id: "teletherapy-setup",
@@ -323,7 +324,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "home",
         description: "Configuração profissional para atendimento remoto",
-        prompt: "Crie terapeuta com setup otimizado para teleterapia. Mantenha traços faciais originais. Ambiente criativo mas profissional, equipamentos de qualidade, iluminação técnica adequada, fundo que transmite profissionalismo. Roupa adequada para vídeo, cores que funcionam bem na tela. Postura e expressão adaptadas para atendimento digital, tons das referências, lente 85mm, mostrando expertise em terapia digital moderna."
+        prompt: "Hyperrealistic professional photography, transform this person into therapist with optimized teletherapy setup while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as therapist with optimized teletherapy setup. Positioned for video call, looking directly at camera with engaging presence, posture adapted for digital consultation. Creative professional attire that reflects innovative approach while maintaining professionalism, video-appropriate colors. Inspiring confident expression, creative energy, innovative professional presence. Video call setup optimized for teletherapy. Professional video call background, clean and organized, creative but professional environment, quality equipment, technical adequate lighting. Shot with Canon EOS R5 simulating high-quality webcam perspective, 50mm equivalent perspective for natural video call framing. Ring light with soft window fill, video-optimized illumination. 8K hyperrealistic photography simulating high-end video call quality. Digital-native color grading, screen-optimized processing, authentic video feel."
       },
       {
         id: "remote-consultation",
@@ -333,7 +334,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "home",
         description: "Sessão de consulta psicológica à distância",
-        prompt: "Transforme a pessoa em especialista em consultas remotas bem organizadas. Preserve características faciais. Mesa de trabalho estruturada, materiais organizados, ambiente doméstico profissional otimizado para atendimento. Roupa profissional casual, expressão focada e acolhedora. Iluminação natural adequada, tons terrosos das referências, lente 85mm, transmitindo competência em atendimento psicológico remoto."
+        prompt: "Hyperrealistic professional photography, transform this person into specialist in organized remote consultations while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as specialist in organized remote consultations. Relaxed professional posture in home environment, structured work desk, organized materials. Professional casual blouse or elegant sweater, accessible professional styling. Warm genuine smile, approachable empathetic expression, naturally confident, focused and welcoming expression. Well-organized home office environment. Home office with organized desk, plants, warm domestic professional setting, optimized for consultation, professional domestic environment. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       },
       {
         id: "digital-therapy-female",
@@ -343,13 +344,13 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "home",
         description: "Terapeuta feminina especializada em ambiente digital",
-        prompt: "Crie terapeuta feminina especializada em terapia digital moderna. Mantenha identidade facial original. Ambiente zen adaptado para digital, elementos que transmitem calma através da tela, setup mindful para atendimento online. Roupa que funciona bem digitalmente, expressão serena e presente adaptada para conexão virtual. Iluminação suave natural, paleta das referências, lente 85mm, mostrando expertise em mindfulness digital."
+        prompt: "Hyperrealistic professional photography, transform this woman into female therapist specialized in modern digital therapy while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as female therapist specialized in modern digital therapy. Positioned for video call, looking directly at camera with engaging presence. Creative professional attire that reflects innovative approach while maintaining professionalism, digitally-appropriate clothing. Inspiring confident expression, creative energy, innovative professional presence, serene and present expression adapted for virtual connection. Video call setup optimized for teletherapy. Professional video call background, clean and organized, zen environment adapted for digital, elements transmitting calm through screen, mindful online setup. Shot with Canon EOS R5 simulating high-quality webcam perspective, 50mm equivalent perspective for natural video call framing. Ring light with soft window fill, video-optimized illumination. 8K hyperrealistic photography simulating high-end video call quality. Digital-native color grading, screen-optimized processing, authentic video feel."
       }
     ]
   },
   {
     title: "Workshops & Palestras",
-    description: "Apresentações, treinamentos e eventos para profissionais",
+    description: "Apresentações hiper-realísticas com consistência facial para profissionais",
     color: "#F59E0B",
     icon: "Presentation",
     templates: [
@@ -361,7 +362,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "office",
         description: "Apresentadora profissional em ambiente de workshop",
-        prompt: "Transforme a mulher em palestrante especialista em psicologia. Preserve identidade facial original. Gesticulando durante apresentação, blazer profissional, expressão confiante e didática. Ambiente de apresentação com materiais educativos, postura de educadora experiente. Iluminação de auditório profissional, tons das referências, lente 85mm, transmitindo autoridade acadêmica e capacidade de ensinar, adequada para workshops de psicologia."
+        prompt: "Hyperrealistic professional photography, transform this woman into psychology specialist presenter while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as psychology specialist presenter. Confident professional posture facing camera directly, gesticulating during presentation. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling. Confident professional expression, warm empathetic smile, authoritative yet approachable, confident and didactic expression. Modern therapeutic office environment. Presentation environment with educational materials, experienced educator posture. Shot with Canon EOS R5 in presentation environment, 85mm f/1.4L lens at f/2.5 for audience perspective. Stage lighting with soft key light, ambient auditorium fill. 8K hyperrealistic photography, professional presentation atmosphere. Professional event color grading, authoritative presence enhancement."
       },
       {
         id: "seminar-speaker-male",
@@ -371,7 +372,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "office",
         description: "Especialista masculino apresentando para audiência profissional",
-        prompt: "Crie psicólogo masculino como palestrante de seminário profissional. Mantenha características faciais. Terno ou blazer elegante, postura de apresentador experiente, gesticulação didática e envolvente. Ambiente acadêmico ou de conferência, materiais de apresentação ao fundo. Iluminação profissional de auditório, expressão autoridade acadêmica mas acessível, tons das referências, lente 85mm, adequado para seminários de saúde mental."
+        prompt: "Hyperrealistic professional photography, transform this man into male psychologist professional seminar speaker while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this man as male psychologist professional seminar speaker. Confident professional posture facing camera directly, experienced presenter posture, didactic and engaging gesticulation. Dark navy blazer over crisp white shirt, professional tie optional, elegant suit. Confident professional expression, warm empathetic smile, authoritative yet approachable, academic authority but accessible. Modern therapeutic office environment. Academic or conference environment, presentation materials in background. Shot with Canon EOS R5 in presentation environment, 85mm f/1.4L lens at f/2.5 for audience perspective. Stage lighting with soft key light, ambient auditorium fill. 8K hyperrealistic photography, professional presentation atmosphere. Professional event color grading, authoritative presence enhancement."
       },
       {
         id: "training-facilitator",
@@ -381,7 +382,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Instrutor conduzindo treinamento em habilidades terapêuticas",
-        prompt: "Transforme a pessoa em facilitador de treinamento em habilidades terapêuticas. Preserve traços faciais originais. Roupa profissional acessível, postura de educador experiente, ambiente de treinamento com recursos didáticos. Expressão engajante e motivadora, capacidade de conexão com grupos. Iluminação de sala de treinamento, tons das referências, lente 85mm, transmitindo expertise pedagógica em psicologia aplicada."
+        prompt: "Hyperrealistic professional photography, transform this person into therapeutic skills training facilitator while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as therapeutic skills training facilitator. Seated in professional consultation pose, welcoming body language, experienced educator posture. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident, engaging and motivating expression. Modern therapeutic office environment. Training environment with didactic resources, group connection capacity. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "conference-presenter",
@@ -391,7 +392,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "office",
         description: "Especialista apresentando em conferência de saúde mental",
-        prompt: "Crie especialista apresentando em conferência de saúde mental. Mantenha identidade facial. Roupa formal de palestrante, ambiente de conferência profissional, materiais de apresentação acadêmica. Postura de autoridade no assunto, expressão competente e inspiradora. Iluminação de evento profissional, tons das referências, lente 85mm, transmitindo liderança intelectual e expertise em psicologia clínica."
+        prompt: "Hyperrealistic professional photography, transform this person into mental health conference specialist presenter while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as mental health conference specialist presenter. Confident professional posture facing camera directly, subject authority posture. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, formal presenter attire. Confident professional expression, warm empathetic smile, authoritative yet approachable, competent and inspiring expression. Modern therapeutic office environment. Professional conference environment, academic presentation materials in background. Shot with Canon EOS R5 in presentation environment, 85mm f/1.4L lens at f/2.5 for audience perspective. Stage lighting with soft key light, ambient auditorium fill. 8K hyperrealistic photography, professional presentation atmosphere. Professional event color grading, authoritative presence enhancement."
       },
       {
         id: "workshop-interaction",
@@ -401,7 +402,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Momento de interação dinâmica com participantes",
-        prompt: "Transforme a pessoa em facilitador durante interação dinâmica em workshop. Preserve características faciais. Movimento de interação com grupo, gesticulação inclusiva, roupa que permite movimento. Ambiente de workshop interativo, materiais de atividade grupal. Expressão entusiasmada e acolhedora, capacidade de envolver participantes. Iluminação natural de workshop, tons das referências, lente 85mm, mostrando habilidades de facilitação grupal."
+        prompt: "Hyperrealistic professional photography, transform this person into dynamic workshop interaction facilitator while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as dynamic workshop interaction facilitator. Confident professional posture facing camera directly, group interaction movement, inclusive gesticulation. Business casual shirt or quality sweater, professional but approachable, movement-allowing attire. Warm genuine smile, approachable empathetic expression, naturally confident, enthusiastic and welcoming expression. Modern therapeutic office environment. Interactive workshop environment, group activity materials. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "educational-speaker",
@@ -411,13 +412,13 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "office",
         description: "Educador em psicologia para diferentes públicos",
-        prompt: "Crie educador especializado em psicologia para diversos públicos. Mantenha identidade facial original. Roupa versátil para diferentes contextos, postura de educador adaptável, materiais educativos variados. Ambiente que serve múltiplos propósitos educacionais. Expressão didática e inspiradora, capacidade de adaptar linguagem. Iluminação educacional, tons das referências, lente 85mm, adequado para educação em saúde mental em vários contextos."
+        prompt: "Hyperrealistic professional photography, transform this person into psychology educator for diverse audiences while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as psychology educator for diverse audiences. Confident professional posture facing camera directly, adaptable educator posture. Creative professional attire that reflects innovative approach while maintaining professionalism, versatile attire for different contexts. Inspiring confident expression, creative energy, innovative professional presence, didactic and inspiring expression. Modern therapeutic office environment. Multiple-purpose educational environment, varied educational materials. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       }
     ]
   },
   {
     title: "Lifestyle Profissional",
-    description: "Profissionais equilibrando vida pessoal e carreira",
+    description: "Profissionais hiper-realísticos equilibrando vida e carreira com consistência facial",
     color: "#EC4899",
     icon: "Coffee",
     templates: [
@@ -429,7 +430,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "outdoor",
         description: "Encontro terapêutico em ambiente descontraído",
-        prompt: "Transforme a pessoa em terapeuta em consulta informal descontraída. Preserve identidade facial original. Ambiente de café ou espaço acolhedor, roupa business casual, expressão calorosa e acessível. Postura relaxada mas profissional, transmitindo que terapia pode ser acessível. Iluminação natural suave, tons das referências, lente 85mm, mostrando abordagem terapêutica humanizada e próxima, adequada para psicólogo com abordagem inovadora."
+        prompt: "Hyperrealistic professional photography, transform this person into therapist in informal consultation setting while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as therapist in informal consultation setting. Natural relaxed posture in outdoor therapeutic setting. Business casual shirt or quality sweater, professional but approachable. Warm genuine smile, approachable empathetic expression, naturally confident, warm and accessible expression. Natural outdoor environment for alternative therapy. Coffee environment or welcoming space, accessible therapy approach. Shot with Canon EOS R5 with outdoor light metering, 85mm f/1.4L lens at f/2.8 for environmental depth. Natural golden hour lighting, soft environmental fill, organic shadows. 8K hyperrealistic photography, natural outdoor authenticity, environmental integration. Natural outdoor color grading, environmental harmony, organic feel."
       },
       {
         id: "outdoor-therapy-walk",
@@ -439,7 +440,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "outdoor",
         description: "Sessão terapêutica ao ar livre em movimento",
-        prompt: "Crie terapeuta especializado em terapia ao ar livre em movimento. Mantenha características faciais. Roupa apropriada para atividade externa, ambiente natural, postura dinâmica de caminhada terapêutica. Expressão presente e conectada com a natureza. Cenário externo natural, iluminação golden hour, tons das referências, lente 85mm, transmitindo abordagem terapêutica inovadora que integra movimento e natureza no processo de cura."
+        prompt: "Hyperrealistic professional photography, transform this person into outdoor therapy specialist in movement while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as outdoor therapy specialist in movement. Natural relaxed posture in outdoor therapeutic setting, dynamic walking therapy posture. Creative professional attire that reflects innovative approach while maintaining professionalism, appropriate for external activity. Inspiring confident expression, creative energy, innovative professional presence, present and connected with nature. Natural outdoor environment for alternative therapy. Natural outdoor setting with soft natural light, organic background. Shot with Canon EOS R5 with outdoor light metering, 85mm f/1.4L lens at f/2.8 for environmental depth. Natural golden hour lighting, soft environmental fill, organic shadows. 8K hyperrealistic photography, natural outdoor authenticity, environmental integration. Natural outdoor color grading, environmental harmony, organic feel."
       },
       {
         id: "coworking-space",
@@ -449,7 +450,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "office",
         description: "Profissional em ambiente colaborativo moderno",
-        prompt: "Transforme a pessoa em psicólogo trabalhando em coworking moderno. Preserve traços faciais originais. Ambiente colaborativo e inovador, laptop e materiais de trabalho, roupa criativa mas profissional. Expressão inspirada e conectada, postura de profissional moderno. Espaço coworking com elementos contemporâneos, iluminação natural, tons das referências, lente 85mm, mostrando psicólogo adaptado aos novos formatos de trabalho."
+        prompt: "Hyperrealistic professional photography, transform this person into psychologist working in modern coworking space while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as psychologist working in modern coworking space. Relaxed professional posture in home environment, modern professional posture. Creative professional attire that reflects innovative approach while maintaining professionalism, laptop and work materials. Inspiring confident expression, creative energy, innovative professional presence, inspired and connected expression. Modern therapeutic office environment. Collaborative and innovative environment, coworking space with contemporary elements. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "wellness-lifestyle",
@@ -459,7 +460,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "home",
         description: "Integração entre bem-estar pessoal e prática profissional",
-        prompt: "Crie psicólogo que integra wellness pessoal à prática profissional. Mantenha identidade facial. Ambiente que mistura elementos pessoais e profissionais, plantas, elementos naturais, estética wellness. Roupa confortável mas elegante, expressão equilibrada e serena. Iluminação natural suave, tons terrosos das referências, lente 85mm, transmitindo modelo de profissional que pratica o que ensina sobre equilíbrio e bem-estar."
+        prompt: "Hyperrealistic professional photography, transform this person into psychologist integrating personal wellness into professional practice while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as psychologist integrating personal wellness into professional practice. Relaxed professional posture in home environment. Creative professional attire that reflects innovative approach while maintaining professionalism, comfortable but elegant clothing. Inspiring confident expression, creative energy, innovative professional presence, balanced and serene expression. Well-organized home office environment. Environment mixing personal and professional elements, plants, natural elements, wellness aesthetics. Shot with Canon EOS R5 optimized for indoor natural light, 85mm f/1.4L lens at f/1.8 for intimate environmental context. Golden hour window light, warm ambient lighting from home environment. 8K hyperrealistic photography, domestic authenticity, cozy professional feel. Warm natural grading, home comfort enhancement, authentic lighting."
       },
       {
         id: "professional-networking",
@@ -469,7 +470,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "business-casual",
         scenario: "office",
         description: "Evento de networking entre profissionais de saúde mental",
-        prompt: "Transforme a pessoa em psicólogo em evento de networking profissional. Preserve características faciais. Interação social profissional, roupa apropriada para networking, expressão confiante e social. Ambiente de evento profissional, outros profissionais ao fundo desfocado. Postura sociável mas autoridade profissional, tons das referências, lente 85mm, transmitindo capacidade de construir relacionamentos profissionais sólidos na área da saúde mental."
+        prompt: "Hyperrealistic professional photography, transform this person into psychologist at professional networking event while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as psychologist at professional networking event. Confident professional posture facing camera directly, professional social interaction. Business casual shirt or quality sweater, professional but approachable, networking-appropriate attire. Warm genuine smile, approachable empathetic expression, naturally confident, confident and social expression. Modern therapeutic office environment. Professional event environment, other professionals in blurred background. Shot with Canon EOS R5 with natural lighting adaptation, 85mm f/1.4L lens at f/2.0 for environmental separation. Soft window light from camera left, natural fill from environment. 8K hyperrealistic photography, authentic office ambiance, natural bokeh. Warm color grading, environmental realism, professional finish."
       },
       {
         id: "mindful-break",
@@ -479,13 +480,13 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "outdoor",
         description: "Momento de autocuidado e mindfulness profissional",
-        prompt: "Crie psicólogo em momento de pausa mindful e autocuidado. Mantenha identidade facial original. Postura meditativa ou contemplativa, ambiente que promove reflexão, elementos naturais. Roupa confortável, expressão presente e centrada. Demonstrando importância do autocuidado profissional. Iluminação natural serena, tons das referências, lente 85mm, mostrando modelo de profissional que valoriza seu próprio bem-estar como base para ajudar outros."
+        prompt: "Hyperrealistic professional photography, transform this person into psychologist in mindful self-care moment while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as psychologist in mindful self-care moment. Natural relaxed posture in outdoor therapeutic setting, meditative or contemplative posture. Creative professional attire that reflects innovative approach while maintaining professionalism, comfortable clothing. Inspiring confident expression, creative energy, innovative professional presence, present and centered expression. Natural outdoor environment for alternative therapy. Environment promoting reflection, natural elements. Shot with Canon EOS R5 with outdoor light metering, 85mm f/1.4L lens at f/2.8 for environmental depth. Natural golden hour lighting, soft environmental fill, organic shadows. 8K hyperrealistic photography, natural outdoor authenticity, environmental integration. Natural outdoor color grading, environmental harmony, organic feel."
       }
     ]
   },
   {
     title: "Estúdio Criativo",
-    description: "Retratos artísticos e criativos para branding profissional",
+    description: "Retratos artísticos hiper-realísticos com preservação de identidade para branding",
     color: "#6366F1",
     icon: "Camera",
     templates: [
@@ -497,7 +498,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Retrato de estúdio com iluminação dramática e profissional",
-        prompt: "Transforme a mulher em retrato dramático de estúdio para psicóloga sênior. Preserve identidade facial original. Blazer estruturado bege ou neutro, iluminação lateral dramática criando contraste elegante. Fundo neutro de estúdio, postura autoritativa mas acessível. Expressão séria mas empática, adequada para especialista renomada. Lente 85mm, estilo editorial das referências com tons terrosos, alta qualidade para materiais promocionais profissionais."
+        prompt: "Hyperrealistic professional photography, transform this woman into dramatic studio portrait for senior psychologist while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as dramatic studio portrait for senior psychologist. Confident professional posture facing camera directly. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, structured beige or neutral blazer. Confident professional expression, warm empathetic smile, authoritative yet approachable, serious but empathetic expression. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh with dramatic lighting accents. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, dramatic side lighting creating elegant contrast. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "creative-headshot",
@@ -507,7 +508,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "studio",
         description: "Retrato criativo para profissional inovador",
-        prompt: "Crie headshot criativo para psicólogo com abordagem inovadora. Mantenha características faciais. Iluminação criativa mas profissional, fundo artístico, roupa que reflete personalidade profissional única. Postura confiante mas acessível, expressão que transmite criatividade e competência. Estúdio com elementos criativos, tons das referências, lente 85mm, adequado para profissional que combina arte e terapia."
+        prompt: "Hyperrealistic professional photography, transform this person into creative headshot for innovative psychologist while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as creative headshot for innovative psychologist. Confident professional posture facing camera directly. Creative professional attire that reflects innovative approach while maintaining professionalism, unique professional personality clothing. Inspiring confident expression, creative energy, innovative professional presence, expressing creativity and competence. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh, artistic background, studio with creative elements. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, creative but professional lighting. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "artistic-portrait",
@@ -517,7 +518,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "studio",
         description: "Composição artística para profissional diferenciado",
-        prompt: "Transforme a pessoa em retrato artístico para psicólogo diferenciado. Preserve traços faciais originais. Composição criativa, iluminação artística, pose contemplativa e sofisticada. Elementos visuais que remetem à psicologia de forma sutil e elegante. Roupa elegante, expressão pensativa e profunda. Estúdio artístico, tons das referências, lente 85mm, transmitindo profundidade intelectual e sensibilidade artística."
+        prompt: "Hyperrealistic professional photography, transform this person into artistic portrait for differentiated psychologist while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as artistic portrait for differentiated psychologist. Confident professional posture facing camera directly, contemplative and sophisticated pose. Creative professional attire that reflects innovative approach while maintaining professionalism, elegant clothing. Inspiring confident expression, creative energy, innovative professional presence, thoughtful and deep expression. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh, artistic studio, visual elements subtly referencing psychology. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, artistic lighting. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "minimalist-studio",
@@ -527,7 +528,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Composição clean e minimalista para marca profissional",
-        prompt: "Crie retrato minimalista de estúdio para marca profissional clean. Mantenha identidade facial. Fundo neutro uniforme, iluminação suave e uniforme, composição minimalista focada na pessoa. Roupa elegante simples, expressão natural e auténtica. Sem elementos que distraiam, foco total no profissional. Estilo das referências com paleta neutra, lente 85mm, adequado para branding profissional sofisticado e atemporal."
+        prompt: "Hyperrealistic professional photography, transform this person into minimalist studio portrait for clean professional brand while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this person as minimalist studio portrait for clean professional brand. Confident professional posture facing camera directly, minimalist composition focused on person. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, elegant simple clothing. Confident professional expression, warm empathetic smile, authoritative yet approachable, natural and authentic expression. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh, uniform neutral background, no distracting elements. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, soft and uniform lighting. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "professional-branding",
@@ -537,7 +538,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "formal",
         scenario: "studio",
         description: "Retrato otimizado para identidade visual profissional",
-        prompt: "Transforme a mulher em retrato otimizado para branding profissional. Preserve características faciais. Pose e expressão alinhadas com identidade de marca, roupa que representa valores profissionais. Iluminação que destaca profissionalismo e confiança. Fundo que complementa marca pessoal. Estúdio profissional, tons das referências, lente 85mm, criando imagem consistente para todos os materiais de marketing profissional."
+        prompt: "Hyperrealistic professional photography, transform this woman into optimized portrait for professional branding while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as optimized portrait for professional branding. Confident professional posture facing camera directly, pose aligned with brand identity. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, representing professional values. Confident professional expression, warm empathetic smile, authoritative yet approachable. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh, background complementing personal brand. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, highlighting professionalism and confidence. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       },
       {
         id: "dynamic-portrait",
@@ -547,7 +548,7 @@ export const templateCategories: TemplateCategory[] = [
         style: "creative",
         scenario: "studio",
         description: "Retrato com energia e movimento para profissional ativo",
-        prompt: "Crie retrato dinâmico para psicóloga ativa e energética. Mantenha identidade facial original. Óculos elegantes, colar statement, pose com ligeiro movimento, expressão vibrante e engajada. Iluminação que capture energia, fundo que sugira movimento. Roupa profissional com personalidade, tons das referências, lente 85mm, transmitindo dinamismo e paixão pela profissão, adequada para psicóloga que trabalha ativamente com mudanças."
+        prompt: "Hyperrealistic professional photography, transform this woman into dynamic portrait for active and energetic psychologist while maintaining 100% complete facial identity, bone structure, eye shape, nose profile, lip contour, and all unique facial characteristics intact. Same person, different professional context. this woman as dynamic portrait for active and energetic psychologist. Confident professional posture facing camera directly, pose with slight movement. Professional blazer in neutral tones over elegant blouse, sophisticated professional styling, elegant glasses, statement necklace, professional clothing with personality. Confident professional expression, warm empathetic smile, authoritative yet approachable, vibrant and engaged expression. Professional photography studio environment. Clean neutral background in warm beige tones, soft bokeh, background suggesting movement. Shot with Canon EOS R5, professional studio setup, 85mm f/1.4L lens at f/2.8 for optimal sharpness. Three-point lighting setup with key light at 45°, soft fill light, subtle rim light, lighting capturing energy. 8K hyperrealistic photography, tack-sharp focus, professional depth of field. Natural color grading, professional skin retouching, magazine-quality finish."
       }
     ]
   }

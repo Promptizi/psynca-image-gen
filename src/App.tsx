@@ -8,12 +8,22 @@ import Generate from "./pages/Generate";
 import Gallery from "./pages/Gallery";
 import Credits from "./pages/Credits";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Support from "./pages/Support";
 import ThumbnailGenerator from "./pages/ThumbnailGenerator";
 import CustomThumbnailGenerator from "./pages/CustomThumbnailGenerator";
 import ThumbnailTester from "./pages/ThumbnailTester";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./hooks/useAuth";
+import { CreditsProvider } from "./hooks/useCredits";
+
+// Auth Pages
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -23,19 +33,37 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/generate" element={<Generate />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/credits" element={<Credits />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/thumbnail-generator" element={<ThumbnailGenerator />} />
-          <Route path="/custom-thumbnails" element={<CustomThumbnailGenerator />} />
-          <Route path="/thumbnail-tester" element={<ThumbnailTester />} />
-          <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <CreditsProvider>
+            <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+
+            {/* Auth Routes */}
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<Signup />} />
+            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
+
+            {/* Protected Routes */}
+            <Route path="/generate" element={<ProtectedRoute><Generate /></ProtectedRoute>} />
+            <Route path="/gallery" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
+            <Route path="/credits" element={<ProtectedRoute><Credits /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/support" element={<ProtectedRoute><Support /></ProtectedRoute>} />
+            <Route path="/thumbnail-generator" element={<ProtectedRoute><ThumbnailGenerator /></ProtectedRoute>} />
+            <Route path="/custom-thumbnails" element={<ProtectedRoute><CustomThumbnailGenerator /></ProtectedRoute>} />
+            <Route path="/thumbnail-tester" element={<ProtectedRoute><ThumbnailTester /></ProtectedRoute>} />
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
+
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          </CreditsProvider>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
