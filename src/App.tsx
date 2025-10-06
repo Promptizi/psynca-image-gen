@@ -14,6 +14,7 @@ import ThumbnailGenerator from "./pages/ThumbnailGenerator";
 import CustomThumbnailGenerator from "./pages/CustomThumbnailGenerator";
 import ThumbnailTester from "./pages/ThumbnailTester";
 import Admin from "./pages/Admin";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/thumbnail-generator" element={<ProtectedRoute><ThumbnailGenerator /></ProtectedRoute>} />
             <Route path="/custom-thumbnails" element={<ProtectedRoute><CustomThumbnailGenerator /></ProtectedRoute>} />
             <Route path="/thumbnail-tester" element={<ProtectedRoute><ThumbnailTester /></ProtectedRoute>} />
+            <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
 
             {/* Admin Routes */}
             <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />

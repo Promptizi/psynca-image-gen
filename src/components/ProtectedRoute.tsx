@@ -24,19 +24,36 @@ export function ProtectedRoute({ children, adminOnly = false }: ProtectedRoutePr
       if (session?.user) {
         setIsAuthenticated(true);
 
-        // Check if user is admin from database
-        const { data: profileData, error: profileError } = await supabase
-          .from("studio_user_profiles")
-          .select("role")
-          .eq("user_id", session.user.id)
-          .single();
+        // Check if user is admin from Studio database
+        try {
+          const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+          const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+          
+          const response = await fetch(
+            `${supabaseUrl}/rest/v1/studio_user_profiles?user_id=eq.${session.user.id}&select=role`,
+            {
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${session.access_token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
-        if (!profileError && profileData) {
-          setIsAdmin(profileData.role === 'admin');
-        } else {
-          // Fallback check for admin email
-          const isUserAdmin = session.user.email === 'admin@psynka.com' ||
-                             session.user.email?.includes('@admin.');
+          if (response.ok) {
+            const data = await response.json();
+            const userRole = data?.[0]?.role;
+            setIsAdmin(userRole === "admin");
+          } else {
+            // Fallback para admin específico do Studio
+            const isUserAdmin = session.user.email === 'admin@studio.psynka.com' ||
+                               session.user.email?.includes('@studio.');
+            setIsAdmin(isUserAdmin);
+          }
+        } catch (error) {
+          // Fallback para admin específico do Studio
+          const isUserAdmin = session.user.email === 'admin@studio.psynka.com' ||
+                             session.user.email?.includes('@studio.');
           setIsAdmin(isUserAdmin);
         }
       } else {

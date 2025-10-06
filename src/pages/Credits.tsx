@@ -2,14 +2,18 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
-import { CreditCard, QrCode, ArrowLeft, Zap, Star, Gift } from "lucide-react";
-import { Link } from "react-router-dom";
+import { CreditCard, QrCode, ArrowLeft, Zap, Star, Gift, Loader2 } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCredits } from "@/hooks/useCredits";
 import { useToast } from "@/hooks/use-toast";
+import { createCheckoutSession, redirectToCheckout, handlePaymentSuccess } from "@/lib/stripe";
+import { useState, useEffect } from "react";
 
 export default function Credits() {
-  const { credits: userCredits } = useCredits();
+  const { credits: userCredits, refreshCredits } = useCredits();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState<string | null>(null);
 
   const purchaseOptions = [
     {
@@ -41,13 +45,71 @@ export default function Credits() {
     }
   ];
 
-  const handlePurchase = (packageId: string) => {
-    // TODO: Integrate with payment gateway (Stripe/Pagar.me)
-    toast({
-      title: "Funcionalidade em desenvolvimento",
-      description: "A integração de pagamento será implementada em breve.",
-    });
-    console.log(`Purchasing package: ${packageId}`);
+  // Handle success/cancel from Stripe
+  useEffect(() => {
+    const success = searchParams.get('success');
+    const cancelled = searchParams.get('cancelled');
+    const sessionId = searchParams.get('session_id');
+
+    if (success && sessionId) {
+      handleStripeSuccess(sessionId);
+    } else if (cancelled) {
+      toast({
+        title: "Pagamento cancelado",
+        description: "Você pode tentar novamente quando quiser.",
+        variant: "destructive",
+      });
+    }
+  }, [searchParams, toast]);
+
+  const handleStripeSuccess = async (sessionId: string) => {
+    try {
+      const result = await handlePaymentSuccess(sessionId);
+      
+      await refreshCredits(); // Refresh credits display
+      
+      toast({
+        title: "Pagamento realizado com sucesso!",
+        description: `${result.payment.credits_purchased} créditos foram adicionados à sua conta.`,
+      });
+
+      // Clear URL parameters
+      window.history.replaceState({}, '', '/credits');
+      
+    } catch (error: any) {
+      console.error('Error handling payment success:', error);
+      toast({
+        title: "Erro ao processar pagamento",
+        description: "O pagamento foi realizado, mas houve um erro. Entre em contato com o suporte.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handlePurchase = async (packageId: string, paymentMethod: 'card' | 'pix' = 'card') => {
+    if (loading) return;
+    
+    setLoading(`${packageId}-${paymentMethod}`);
+    
+    try {
+      const result = await createCheckoutSession({
+        packageId,
+        successUrl: `${window.location.origin}/credits?success=true&session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/credits?cancelled=true`,
+      });
+
+      await redirectToCheckout(result.sessionId);
+      
+    } catch (error: any) {
+      console.error('Error creating checkout session:', error);
+      toast({
+        title: "Erro ao iniciar pagamento",
+        description: error.message || "Não foi possível iniciar o processo de pagamento.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(null);
+    }
   };
 
   return (
@@ -120,18 +182,28 @@ export default function Credits() {
 
                 <div className="flex gap-3">
                   <Button 
-                    onClick={() => handlePurchase(option.id)}
+                    onClick={() => handlePurchase(option.id, 'card')}
+                    disabled={loading === `${option.id}-card`}
                     className="flex-1 bg-gradient-primary text-white border-0 hover:opacity-90"
                   >
-                    <CreditCard className="mr-2 h-4 w-4" />
+                    {loading === `${option.id}-card` ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <CreditCard className="mr-2 h-4 w-4" />
+                    )}
                     Cartão
                   </Button>
                   <Button 
-                    onClick={() => handlePurchase(option.id)}
+                    onClick={() => handlePurchase(option.id, 'pix')}
+                    disabled={loading === `${option.id}-pix`}
                     variant="outline"
                     className="flex-1 border-primary text-primary hover:bg-primary/10"
                   >
-                    <QrCode className="mr-2 h-4 w-4" />
+                    {loading === `${option.id}-pix` ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <QrCode className="mr-2 h-4 w-4" />
+                    )}
                     Pix
                   </Button>
                 </div>

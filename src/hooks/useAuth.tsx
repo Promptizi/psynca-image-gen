@@ -3,6 +3,7 @@ import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { setStudioContext, STUDIO_ROUTES } from "@/lib/studio-isolation";
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +29,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Marca contexto como Studio na inicialização
+    setStudioContext();
     checkUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -44,10 +47,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
 
         if (event === "SIGNED_IN") {
-          navigate("/");
+          // Garante que após login o usuário permanece no Studio
+          navigate(STUDIO_ROUTES.HOME);
         }
         if (event === "SIGNED_OUT") {
-          navigate("/auth/login");
+          navigate(STUDIO_ROUTES.LOGIN);
         }
         if (event === "PASSWORD_RECOVERY") {
           navigate("/auth/reset-password");
@@ -77,20 +81,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const checkAdminStatus = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from("studio_user_profiles")
-        .select("role")
-        .eq("user_id", userId)
-        .single();
+      // Usa fetch direto para verificar admin status no Studio
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      
+      const response = await fetch(
+        `${supabaseUrl}/rest/v1/studio_user_profiles?user_id=eq.${userId}&select=role`,
+        {
+          headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${session?.access_token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      if (error) {
-        console.error("Error checking admin status:", error);
+      if (!response.ok) {
+        setIsAdmin(false);
         return;
       }
 
-      setIsAdmin(data?.role === "admin");
+      const data = await response.json();
+      const userRole = data?.[0]?.role;
+      setIsAdmin(userRole === "admin");
     } catch (error) {
-      console.error("Error in checkAdminStatus:", error);
+      // Silently fail - user might not have profile yet
       setIsAdmin(false);
     }
   };
