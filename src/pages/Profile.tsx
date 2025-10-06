@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { CreditDisplay } from "@/components/ui/credit-display";
 import { MobileNavigation } from "@/components/ui/navigation";
 import { User, Settings, HelpCircle, LogOut, ArrowLeft, BarChart3, Calendar, Loader2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { formatDate, getInitials } from "@/lib/auth-helpers";
@@ -17,7 +17,6 @@ export default function Profile() {
   const [imageCount, setImageCount] = useState(0);
   const { user, signOut } = useAuth();
   const { credits: userCredits } = useCredits();
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -32,26 +31,36 @@ export default function Profile() {
 
     setLoading(true);
     try {
-      // Load user profile
-      const { data: profileData, error: profileError } = await supabase
-        .from("studio_user_profiles")
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
+      // Load user profile using direct fetch
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const { data: session } = await supabase.auth.getSession();
+      
+      if (session.session) {
+        const profileResponse = await fetch(
+          `${supabaseUrl}/rest/v1/studio_user_profiles?user_id=eq.${user.id}`,
+          {
+            headers: {
+              'apikey': supabaseKey,
+              'Authorization': `Bearer ${session.session.access_token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
-      if (profileError && profileError.code !== 'PGRST116') {
-        throw profileError;
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          setProfile(profileData[0] || null);
+        }
+
+        // Load image count
+        const { count } = await supabase
+          .from("studio_generated_images")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", user.id);
+
+        setImageCount(count || 0);
       }
-
-      setProfile(profileData);
-
-      // Load image count
-      const { count } = await supabase
-        .from("studio_generated_images")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      setImageCount(count || 0);
     } catch (error) {
       console.error("Error loading user data:", error);
       toast({
@@ -67,6 +76,10 @@ export default function Profile() {
   const handleLogout = async () => {
     try {
       await signOut();
+      toast({
+        title: "Logout realizado",
+        description: "Você foi desconectado com sucesso.",
+      });
     } catch (error: any) {
       console.error("Logout error:", error);
       toast({
@@ -78,8 +91,26 @@ export default function Profile() {
   };
 
   const menuItems = [
-    { icon: Settings, label: "Configurações", action: () => navigate("/settings") },
-    { icon: HelpCircle, label: "Ajuda e Suporte", action: () => navigate("/support") },
+    { 
+      icon: Settings, 
+      label: "Configurações", 
+      action: () => {
+        toast({
+          title: "Em desenvolvimento",
+          description: "Página de configurações será implementada em breve.",
+        });
+      }
+    },
+    { 
+      icon: HelpCircle, 
+      label: "Ajuda e Suporte", 
+      action: () => {
+        toast({
+          title: "Em desenvolvimento", 
+          description: "Página de suporte será implementada em breve.",
+        });
+      }
+    },
     { icon: LogOut, label: "Sair", action: handleLogout, danger: true }
   ];
 
@@ -175,9 +206,11 @@ export default function Profile() {
               <h3 className="font-bold">Pacote Atual</h3>
               <p className="text-sm text-muted-foreground">Pagamento por crédito</p>
             </div>
-            <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary/10">
-              Gerenciar
-            </Button>
+            <Link to="/credits">
+              <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary/10">
+                Gerenciar
+              </Button>
+            </Link>
           </div>
           
           <div className="space-y-2">

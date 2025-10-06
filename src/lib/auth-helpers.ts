@@ -62,7 +62,7 @@ export const createUserProfile = async (userId: string, email: string, fullName?
       .from("studio_user_credits")
       .insert({
         user_id: userId,
-        credits: 10, // Initial free credits
+        credits: 2, // Initial free credits
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
