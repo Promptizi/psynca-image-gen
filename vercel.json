@@ -3,6 +3,13 @@
   "outputDirectory": "dist",
   "installCommand": "npm ci",
   "framework": "vite",
+  "build": {
+    "env": {
+      "VITE_GOOGLE_NANO_BANAN_API_KEY": "AIzaSyD-yAPN4wcVvqGTW8WM8khuZL69cLZ-e7E",
+      "VITE_SUPABASE_URL": "https://qflgmcuyxnvflzglfoon.supabase.co",
+      "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGdtY3V5eG52Zmx6Z2xmb29uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2ODY5OTEsImV4cCI6MjA3MDI2Mjk5MX0.YY9Y8f8b7VYPRU8aB1X5tuVPAX63x-KxI1VjQz9xINg"
+    }
+  },
   "routes": [
     {
       "src": "/assets/(.*)",
