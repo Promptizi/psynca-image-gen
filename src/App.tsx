@@ -25,6 +25,7 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import OAuthCallback from "./pages/auth/OAuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/auth/signup" element={<Signup />} />
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/callback" element={<OAuthCallback />} />
 
             {/* Protected Routes */}
             <Route path="/generate" element={<ProtectedRoute><Generate /></ProtectedRoute>} />
