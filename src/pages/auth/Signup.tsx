@@ -98,6 +98,7 @@ export default function Signup() {
     if (!validateForm()) return;
 
     setLoading(true);
+    console.log("Starting signup process for:", email);
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -109,6 +110,11 @@ export default function Signup() {
           emailRedirectTo: `${window.location.origin}/auth/confirm`,
         },
       });
+
+      console.log("Signup response:", { data, error });
+      console.log("User object:", data?.user);
+      console.log("User ID:", data?.user?.id);
+      console.log("Session:", data?.session);
 
       // Se houver erro de "Database error saving new user", o usuário foi criado mas o trigger falhou
       // Neste caso, vamos tentar criar o perfil manualmente
@@ -148,24 +154,50 @@ export default function Signup() {
 
       if (error) throw error;
 
-      if (data.user) {
-        try {
-          await createUserProfile(data.user.id, email, fullName);
-        } catch (profileError: any) {
-          // Se o perfil já existe (por causa do trigger), ignore o erro
-          if (!profileError.message?.includes("duplicate key")) {
-            throw profileError;
-          }
-        }
-      }
+      console.log("Signup completed - data:", data);
 
-      if (data.user && !data.session) {
+      // Quando há confirmação de email habilitada:
+      // - data.user existe mas data.session é null
+      // - O trigger handle_new_user já criou o perfil e créditos
+      // - Não precisamos criar o perfil manualmente
+
+      if (data?.user && !data?.session) {
+        // Email confirmation is required
+        console.log("User created but email confirmation required");
         toast({
           title: "Cadastro realizado com sucesso!",
           description: "Por favor, verifique seu email para confirmar sua conta.",
         });
         navigate("/auth/login");
-      } else if (data.session) {
+      } else if (data?.user && data?.session) {
+        // Email confirmation is disabled, user is logged in
+        console.log("User created and logged in:", data.user.id);
+
+        // Só tenta criar o perfil se o trigger não tiver criado
+        // Isso só acontece se o trigger falhar
+        try {
+          const userId = data.user.id;
+          if (!userId) {
+            throw new Error("User ID não disponível");
+          }
+
+          // Verifica se o perfil já existe
+          const { data: existingProfile } = await supabase
+            .from("studio_user_profiles")
+            .select("user_id")
+            .eq("user_id", userId)
+            .single();
+
+          if (!existingProfile) {
+            console.log("Profile not found, creating manually...");
+            await createUserProfile(userId, email, fullName);
+          }
+        } catch (error: any) {
+          // Ignora erro se o perfil já existe
+          if (!error.message?.includes("duplicate key") && !error.code?.includes("PGRST116")) {
+            console.error("Error checking/creating profile:", error);
+          }
+        }
         toast({
           title: "Cadastro realizado com sucesso!",
           description: "Bem-vindo ao Psynka Studio!",

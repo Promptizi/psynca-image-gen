@@ -41,36 +41,45 @@ export const getUserCredits = async (userId: string) => {
 };
 
 export const createUserProfile = async (userId: string, email: string, fullName?: string) => {
+  console.log("createUserProfile called with:", { userId, email, fullName });
   try {
+    const profileData = {
+      user_id: userId,
+      email,
+      full_name: fullName || email.split("@")[0],
+      role: "user",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    console.log("Inserting profile data:", profileData);
+
     const { error: profileError } = await supabase
       .from("studio_user_profiles")
-      .insert({
-        user_id: userId,
-        email,
-        full_name: fullName || email.split("@")[0],
-        role: "user",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      .insert(profileData);
 
     if (profileError) {
       console.error("Error creating user profile:", profileError);
       throw profileError;
     }
+    console.log("Profile inserted successfully");
+
+    const creditsData = {
+      user_id: userId,
+      credits: 2, // Initial free credits
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    console.log("Inserting credits data:", creditsData);
 
     const { error: creditsError } = await supabase
       .from("studio_user_credits")
-      .insert({
-        user_id: userId,
-        credits: 2, // Initial free credits
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      .insert(creditsData);
 
     if (creditsError) {
       console.error("Error creating user credits:", creditsError);
       throw creditsError;
     }
+    console.log("Credits inserted successfully");
 
     return true;
   } catch (error) {
