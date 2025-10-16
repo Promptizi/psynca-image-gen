@@ -419,7 +419,7 @@ export const templateCategories: TemplateCategory[] = [
   {
     title: "Lifestyle Profissional",
     description: "Profissionais hiper-realísticos equilibrando vida e carreira com consistência facial",
-    color: "#EC4899",
+    color: "#A687D4",
     icon: "Coffee",
     templates: [
       {

@@ -28,16 +28,16 @@ export function BackgroundEffects({ variant = 'subtle', active = true }: Backgro
     switch (variant) {
       case 'celebration':
         particleCount = 12;
-        colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b'];
+        colors = ['#6f41b4', '#a687d4', '#06b6d4', '#10b981', '#f59e0b'];
         break;
       case 'generating':
         particleCount = 8;
-        colors = ['#a855f7', '#8b5cf6', '#7c3aed'];
+        colors = ['#a687d4', '#8a61c7', '#6f41b4'];
         break;
       case 'subtle':
       default:
         particleCount = 5;
-        colors = ['#a855f7', '#8b5cf6'];
+        colors = ['#a687d4', '#8a61c7'];
         break;
     }
 
@@ -76,7 +76,7 @@ export function BackgroundEffects({ variant = 'subtle', active = true }: Backgro
 
       {/* Subtle gradient overlay for depth */}
       {variant === 'celebration' && (
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-400/5 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-[#a687d4]/5 animate-pulse" />
       )}
     </div>
   );

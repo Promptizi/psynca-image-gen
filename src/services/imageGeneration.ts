@@ -219,8 +219,8 @@ class ImageGenerationService {
     switch (request.template) {
       case 'therapy-session':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#8b5cf6');
-        gradient.addColorStop(1, '#ec4899');
+        gradient.addColorStop(0, '#6f41b4');
+        gradient.addColorStop(1, '#a687d4');
         break;
       case 'mindfulness':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
@@ -229,8 +229,8 @@ class ImageGenerationService {
         break;
       case 'emotions':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#ec4899');
-        gradient.addColorStop(1, '#8b5cf6');
+        gradient.addColorStop(0, '#a687d4');
+        gradient.addColorStop(1, '#6f41b4');
         break;
       case 'nature-therapy':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
@@ -239,8 +239,8 @@ class ImageGenerationService {
         break;
       default:
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#a855f7');
-        gradient.addColorStop(1, '#3b82f6');
+        gradient.addColorStop(0, '#a687d4');
+        gradient.addColorStop(1, '#6f41b4');
     }
     
     // Fill background
@@ -322,8 +322,8 @@ class ImageGenerationService {
     switch (request.template) {
       case 'therapy-session':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#8b5cf6');
-        gradient.addColorStop(1, '#ec4899');
+        gradient.addColorStop(0, '#6f41b4');
+        gradient.addColorStop(1, '#a687d4');
         break;
       case 'mindfulness':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
@@ -332,8 +332,8 @@ class ImageGenerationService {
         break;
       case 'emotions':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#ec4899');
-        gradient.addColorStop(1, '#8b5cf6');
+        gradient.addColorStop(0, '#a687d4');
+        gradient.addColorStop(1, '#6f41b4');
         break;
       case 'nature-therapy':
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
@@ -342,8 +342,8 @@ class ImageGenerationService {
         break;
       default:
         gradient = ctx.createLinearGradient(0, 0, 512, 512);
-        gradient.addColorStop(0, '#a855f7');
-        gradient.addColorStop(1, '#3b82f6');
+        gradient.addColorStop(0, '#a687d4');
+        gradient.addColorStop(1, '#6f41b4');
     }
     
     // Fill background

@@ -17,7 +17,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Psynka Light Theme - Professional Healthcare Rosa/Roxo */
+    /* Psynka Light Theme - Professional Healthcare Lilás */
     --background: 0 0% 98%;
     --foreground: 240 10% 15%;
 
@@ -27,41 +27,41 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    /* Professional Rosa Primary - Similar ao Psynka */
-    --primary: 330 65% 60%;
+    /* Lilás profissional primário */
+    --primary: 265 47% 68%;
     --primary-foreground: 0 0% 100%;
 
-    /* Soft Light Secondary */
-    --secondary: 330 20% 94%;
+    /* Soft Lilac Secondary */
+    --secondary: 265 48% 88%;
     --secondary-foreground: 240 10% 15%;
 
     --muted: 240 10% 95%;
     --muted-foreground: 240 10% 45%;
 
-    /* Roxo Suave Accent */
-    --accent: 280 60% 65%;
+    /* Roxo Lilás Accent */
+    --accent: 265 48% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 330 15% 92%;
-    --input: 330 15% 94%;
-    --ring: 330 65% 60%;
+    --border: 265 35% 86%;
+    --input: 265 35% 90%;
+    --ring: 265 47% 68%;
 
     --radius: 1rem;
 
-    /* Professional Psynka Gradients */
-    --gradient-primary: linear-gradient(135deg, #ec4899, #f97db4, #fbbbd2);
-    --gradient-hero: linear-gradient(135deg, #f97db4, #ec4899, #a855f7);
-    --gradient-card: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(249, 125, 180, 0.03));
+    /* Gradientes profissionais Psynka Lilás */
+    --gradient-primary: linear-gradient(135deg, #6f41b4, #a687d4, #ded2ef);
+    --gradient-hero: linear-gradient(135deg, #ded2ef, #a687d4, #8a61c7);
+    --gradient-card: linear-gradient(135deg, rgba(166, 135, 212, 0.08), rgba(166, 135, 212, 0.03));
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 100%));
 
     /* Clean Professional Shadows */
-    --shadow-glow: 0 4px 20px rgba(236, 72, 153, 0.15);
+    --shadow-glow: 0 4px 20px rgba(166, 135, 212, 0.18);
     --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
-    --shadow-button: 0 2px 8px rgba(236, 72, 153, 0.2);
-    --shadow-cyan: 0 2px 12px rgba(168, 85, 247, 0.15);
+    --shadow-button: 0 2px 8px rgba(166, 135, 212, 0.25);
+    --shadow-cyan: 0 2px 12px rgba(166, 135, 212, 0.2);
 
     /* Smooth Professional Animations */
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,52 +69,52 @@ All colors MUST be HSL.
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 10% 15%;
-    --sidebar-primary: 330 65% 60%;
+    --sidebar-primary: 265 47% 68%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 330 15% 96%;
+    --sidebar-accent: 265 30% 92%;
     --sidebar-accent-foreground: 240 10% 15%;
-    --sidebar-border: 330 15% 92%;
-    --sidebar-ring: 330 65% 60%;
+    --sidebar-border: 265 30% 88%;
+    --sidebar-ring: 265 47% 68%;
   }
 
   .dark {
-    /* Professional Dark Theme - Psynka Rosa/Roxo */
-    --background: 280 25% 8%;
-    --foreground: 330 15% 95%;
+    /* Professional Dark Theme - Psynka Lilás */
+    --background: 265 30% 10%;
+    --foreground: 265 25% 90%;
 
-    --card: 280 25% 10%;
-    --card-foreground: 330 15% 95%;
+    --card: 265 30% 12%;
+    --card-foreground: 265 25% 92%;
 
-    --popover: 280 25% 10%;
-    --popover-foreground: 330 15% 95%;
+    --popover: 265 30% 12%;
+    --popover-foreground: 265 25% 92%;
 
-    --primary: 330 65% 65%;
-    --primary-foreground: 280 25% 8%;
+    --primary: 265 47% 68%;
+    --primary-foreground: 265 30% 12%;
 
-    --secondary: 280 15% 15%;
-    --secondary-foreground: 330 15% 95%;
+    --secondary: 265 25% 22%;
+    --secondary-foreground: 265 25% 90%;
 
-    --muted: 280 15% 15%;
-    --muted-foreground: 280 10% 65%;
+    --muted: 265 20% 22%;
+    --muted-foreground: 265 20% 70%;
 
-    --accent: 280 60% 70%;
+    --accent: 265 48% 58%;
     --accent-foreground: 280 25% 8%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 330 15% 95%;
+    --destructive-foreground: 265 25% 92%;
 
-    --border: 280 15% 20%;
-    --input: 280 15% 20%;
-    --ring: 330 65% 65%;
+    --border: 265 20% 30%;
+    --input: 265 20% 30%;
+    --ring: 265 47% 68%;
 
-    --sidebar-background: 280 25% 6%;
-    --sidebar-foreground: 330 15% 95%;
-    --sidebar-primary: 330 65% 65%;
-    --sidebar-primary-foreground: 280 25% 6%;
-    --sidebar-accent: 280 15% 12%;
-    --sidebar-accent-foreground: 330 15% 95%;
-    --sidebar-border: 280 15% 20%;
-    --sidebar-ring: 330 65% 65%;
+    --sidebar-background: 265 30% 8%;
+    --sidebar-foreground: 265 25% 90%;
+    --sidebar-primary: 265 47% 68%;
+    --sidebar-primary-foreground: 265 30% 8%;
+    --sidebar-accent: 265 25% 18%;
+    --sidebar-accent-foreground: 265 25% 90%;
+    --sidebar-border: 265 20% 30%;
+    --sidebar-ring: 265 47% 68%;
   }
 }
 
@@ -188,7 +188,7 @@ All colors MUST be HSL.
   .glass-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(236, 72, 153, 0.1);
+    border: 1px solid rgba(166, 135, 212, 0.12);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   }
 
@@ -196,20 +196,20 @@ All colors MUST be HSL.
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(236, 72, 153, 0.15);
-    box-shadow: 0 8px 32px 0 rgba(236, 72, 153, 0.1);
+    border: 1px solid rgba(166, 135, 212, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(166, 135, 212, 0.15);
   }
 
   .psynka-button {
-    background: linear-gradient(135deg, #ec4899, #a855f7);
-    box-shadow: 0 2px 8px 0 rgba(236, 72, 153, 0.2);
+    background: linear-gradient(135deg, #8a61c7, #a687d4);
+    box-shadow: 0 2px 8px 0 rgba(166, 135, 212, 0.25);
     border: none;
     transition: all 0.2s ease;
   }
 
   .psynka-button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px 0 rgba(236, 72, 153, 0.3);
+    box-shadow: 0 4px 12px 0 rgba(166, 135, 212, 0.3);
   }
 
   .professional-glow {
@@ -245,8 +245,8 @@ All colors MUST be HSL.
 
 
   @keyframes professional-pulse {
-    0%, 100% { box-shadow: 0 2px 12px rgba(236, 72, 153, 0.15); }
-    50% { box-shadow: 0 4px 20px rgba(236, 72, 153, 0.25); }
+    0%, 100% { box-shadow: 0 2px 12px rgba(166, 135, 212, 0.18); }
+    50% { box-shadow: 0 4px 20px rgba(166, 135, 212, 0.28); }
   }
 
 
@@ -331,15 +331,15 @@ All colors MUST be HSL.
   }
 
   .success-glow {
-    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 4px 20px rgba(166, 135, 212, 0.3);
   }
 
   .shadow-glow {
-    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.15);
+    box-shadow: 0 4px 20px rgba(166, 135, 212, 0.18);
   }
 
   .shadow-glow-strong {
-    box-shadow: 0 6px 30px rgba(236, 72, 153, 0.25);
+    box-shadow: 0 6px 30px rgba(166, 135, 212, 0.28);
   }
 
   .psynka-shadow {
@@ -361,7 +361,7 @@ All colors MUST be HSL.
     }
 
     .shadow-glow {
-      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 0 15px rgba(166, 135, 212, 0.28);
     }
 
 
@@ -572,7 +572,7 @@ All colors MUST be HSL.
     left: 50%;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%);
+    background: radial-gradient(circle, transparent 40%, rgba(166, 135, 212, 0.12) 50%, transparent 60%);
     transform: translate(-50%, -50%);
     animation: magic-sparkle 0.8s ease-in-out;
   }

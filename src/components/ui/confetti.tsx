@@ -11,7 +11,7 @@ export function Confetti({
   active,
   duration = 3000,
   intensity = 15,
-  colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b']
+  colors = ['#6f41b4', '#a687d4', '#8a61c7', '#06b6d4', '#10b981', '#f59e0b']
 }: ConfettiProps) {
   const [particles, setParticles] = useState<Array<{
     id: number;

@@ -26,8 +26,8 @@ const categoryConfigs: Record<string, ThumbnailConfig> = {
     style: 'healthcare'
   },
   'creative': {
-    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-    accent: '#f59e0b',
+    background: 'linear-gradient(135deg, #6f41b4 0%, #a687d4 100%)',
+    accent: '#c7b4e4',
     textColor: '#ffffff',
     elements: ['brush', 'laptop', 'lightbulb'],
     style: 'creative'
@@ -129,9 +129,9 @@ const templateConfigs: Record<string, Partial<ThumbnailConfig> & { category: str
   },
   'design-consultant': {
     category: 'creative',
-    background: 'linear-gradient(135deg, #fce7f3 0%, #f472b6 100%)',
-    textColor: '#831843',
-    accent: '#ec4899',
+    background: 'linear-gradient(135deg, #ded2ef 0%, #a687d4 100%)',
+    textColor: '#322154',
+    accent: '#6f41b4',
     elements: ['palette', 'sketch', 'creative']
   },
   'freelancer-creative': {
